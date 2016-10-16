@@ -20,7 +20,7 @@ Aktuálně používaná třída
 
 Třída pro práci s infraperem.
 
-#### 1.1.3.1 `\_\_init\_\_(self,wiimote):`
+#### 1.1.3.1 `__init__(self,wiimote):`
 
 Počáteční inicializace, dostane objekt wiimote použitého jako
 infrakamera
