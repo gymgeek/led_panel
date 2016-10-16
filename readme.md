@@ -121,3 +121,23 @@ druhého vlákna s `startGame`.
 
 ### 2.2.2 Návrh herní třídy
 Blueprint ednotlivých tříd [jsou dostupné zde](https://github.com/gymgeek/led_panel/tree/master/source/BBB/blueprints)
+
+### 2.2.3 Sériová komunikace s HW menu
+Pro označení jednotlivých tlačítek se používají byty v hodnotě 65-80, tj. ASCII hodnoty pro písmena A-P. Pokud dojde ke stisknutí tlačítka na menu, odešle Arduino po sériové lince odpovídající znak. Pokud je ze strany BBB požadováno rozsvícení LEDky, jsou do Arduina po sériové lince poslány dva znaky - jeden označuje LEDku příslušného tlačítka, druhý stav.
+| Příkaz | Stav |
+| ------ | ---- |
+| A      | Zhasnuto |
+| B      | Rozsvíceno |
+| C      | Blikání s frekvencí 2Hz |
+
+Například pro rozsvícení LEDky u tlačítka N je potřeba odeslat `NB`, tj byty `78,66`
+
+
+
+
+
+
+
+
+
+
