@@ -124,6 +124,7 @@ Blueprint ednotlivých tříd [jsou dostupné zde](https://github.com/gymgeek/le
 
 ### 2.2.3 Sériová komunikace s HW menu
 Pro označení jednotlivých tlačítek se používají byty v hodnotě 65-80, tj. ASCII hodnoty pro písmena A-P. Pokud dojde ke stisknutí tlačítka na menu, odešle Arduino po sériové lince odpovídající znak. Pokud je ze strany BBB požadováno rozsvícení LEDky, jsou do Arduina po sériové lince poslány dva znaky - jeden označuje LEDku příslušného tlačítka, druhý stav.
+
 | Příkaz | Stav |
 | ------ | ---- |
 | A      | Zhasnuto |
