@@ -61,13 +61,13 @@ objekt, v parametru dostane obejkt wiimote a světelného panelu.
 
 HW menu sestává ze 16 tlačítek, každé s LEDkou, oboje zapojené jako 4x4
 matrix. Ovládání bude zajišťovat Arduino, komunikace s BBB po sériové
-lince. Rozvržení tlačítek bude následující:
+lince. Tlačíka jsou značena abecedně, odshora dolu, zleva doprava. Rozvržení tlačítek bude následující:
 
-  Párování Wiimote 1                Had           Přednastavený text 1
-  --------------------------------- ---------- -- ----------------------
-  Párování Wiimote 2                Tetris        Přednastavený text 2
-  Kalibrace infrapera (Wiimote 2)   2048          Přednastavený text 3
-  Cancel                            Kreslení      Přednastavený text 4
+
+  | A: Párování Wiimote 1                | B: Had     | C:      | D: Přednastavený text 1
+  | E: Párování Wiimote 2                | F: Tetris  | G:      | H: Přednastavený text 2
+  | I: Kalibrace infrapera (Wiimote 2)   | J: 2048    | K:      | L: Přednastavený text 3
+  | M: Cancel                            | N: Kreslení| O:      | P: Přednastavený text 4
 
 Při spárovaném Wiimote bude LEDka svítit, při odpojeném bude zhasnutá.
 Pokud bude prováděna kalibrace nebo párování, LEDka bude blikat. Po
@@ -114,173 +114,9 @@ spuštění další hry.
 
 #### 2.2.1.4 terminate(self):
 
-<span id="_o77yxkeuano5" class="anchor"></span>Bude zavoláno po ukončení
+Bude zavoláno po ukončení
 druhého vlákna s *gameLogic*.
 
-<span id="_96cxoyjf5ope" class="anchor"></span>
-
-<span id="_a0lzfbu1iswz" class="anchor"></span>
-
-<span id="_lxhnfynpca7a" class="anchor"></span>
-
-<span id="_bgpfcyo27xm0" class="anchor"></span>
-
-<span id="_j80lllkxbdbv" class="anchor"></span>
 
 ### 2.2.2 Návrh herní třídy
-
-<span id="_iv8qz7frz7jz" class="anchor"></span>**import** threading
-
-<span id="_mbjgc878l4o6" class="anchor"></span>**import** time
-
-<span id="_do06c2gtylmm" class="anchor"></span>
-
-<span id="_9ldqyu9d8kj7" class="anchor"></span>**class** Game
-(threading.Thread):
-
-<span id="_czjuypvr4oit" class="anchor"></span> **def**
-\_\_init\_\_(self):
-
-<span id="_sa45fnyl9q3c" class="anchor"></span>
-threading.Thread.\_\_init\_\_(self)
-
-<span id="_8yzpdydfg5wb" class="anchor"></span> self.running = False
-
-<span id="_dhjlmziyerhb" class="anchor"></span>
-
-<span id="_v8wvzhzhrxto" class="anchor"></span> **def** prepare(self,
-svetelny\_panel, wiimote1, wiimote2, infrapen):
-
-<span id="_uietoqd768uo" class="anchor"></span> self.svetelny\_panel =
-svetelny\_panel
-
-<span id="_7q9q589800pv" class="anchor"></span> self.wiimote1 = wiimote1
-
-<span id="_qmaf3leqili6" class="anchor"></span> self.wiimote2 = wiimote2
-
-<span id="_v1im3o41tq07" class="anchor"></span> self.infrapen = infrapen
-
-<span id="_pre8yidqmcis" class="anchor"></span> **print**(**"Preparing
-necessary ingredients..."**)
-
-<span id="_jd58n7fzvdoc" class="anchor"></span> self.count = 0
-
-<span id="_fx3nckknp9fj" class="anchor"></span>
-
-<span id="_qrkij0mj3jje" class="anchor"></span> **def**
-start\_game(self):
-
-<span id="_lv4siexvzex" class="anchor"></span> self.running = True
-
-<span id="_fz0612xa1vm9" class="anchor"></span> **print**(**"Starting
-the game..."**)
-
-<span id="_if6rv1ashdw5" class="anchor"></span> *\# This starts the
-parallel thread (self.run() method is called)*
-
-<span id="_8z7lp3iulbi" class="anchor"></span> self.start()
-
-<span id="_whtco0rcggs5" class="anchor"></span>
-
-<span id="_vqtahy95mu6r" class="anchor"></span> **def**
-stop\_game(self):
-
-<span id="_c6ojslwagn89" class="anchor"></span> self.running = False
-
-<span id="_plrtzf1iud1p" class="anchor"></span> *\# Wait for the game to
-be ended*
-
-<span id="_n2u4qjgfx8ec" class="anchor"></span> time.sleep(1)
-
-<span id="_6zmta7n8bpfy" class="anchor"></span> *\# Now, some other game
-can be started*
-
-<span id="_f6z3xur0d8te" class="anchor"></span>
-
-<span id="_g4yibcb0uwtm" class="anchor"></span> **def** run(self):
-
-<span id="_1roqqor0kupq" class="anchor"></span> *\# This method should
-never be called manually, this runs in parallel thread and is executed
-by &lt;thread&gt;.start() call*
-
-<span id="_m1ca2mpu6rqa" class="anchor"></span> self.gameloop()
-
-<span id="_1uhv8hnauaar" class="anchor"></span>
-
-<span id="_jhjp62u3n9yt" class="anchor"></span> **def** gameloop(self):
-
-<span id="_8iyk64rklaa4" class="anchor"></span> *\# This gameloop must
-be end-able by setting self.running variable to False*
-
-<span id="_5i9yjke74uv6" class="anchor"></span>
-
-<span id="_t5f7xepys813" class="anchor"></span> **while** self.running:
-
-<span id="_mxczeldt6tjf" class="anchor"></span> *\# Game logic here
-please*
-
-<span id="_d5ykudb7kld4" class="anchor"></span> **print**(self.count)
-
-<span id="_rr6042m0wdlg" class="anchor"></span> self.count += 1
-
-<span id="_8ljxf5453pt0" class="anchor"></span> time.sleep(1)
-
-<span id="_2cy3odko999g" class="anchor"></span>
-
-<span id="_z2epp2y0dymz" class="anchor"></span>
-
-<span id="_sc7nf9h5g7vd" class="anchor"></span>*\# For example, game
-could be run from the main service like this *
-
-<span id="_p9hxf1yyvq38" class="anchor"></span>svetelny\_panel,
-wiimote1, wiimote2, infrapen = None, None, None, None
-
-<span id="_mjiloiuxlsin" class="anchor"></span>
-
-<span id="_54fg2hurw0l0" class="anchor"></span>button =
-checkForButtonPush()
-
-<span id="_x8lj4v1de2l2" class="anchor"></span>
-
-<span id="_rdto5tr9vyss" class="anchor"></span>ChosenGame = \[Game,
-Game2, Game3\]\[button\]
-
-<span id="_edn390zggty8" class="anchor"></span>*\# Run the chosen game*
-
-<span id="_hibxqq7srg1d" class="anchor"></span>currentGame =
-ChosenGame()
-
-<span id="_4eurth3kgcbo"
-class="anchor"></span>currentGame.prepare(svetelny\_panel, wiimote1,
-wiimote2, infrapen)
-
-<span id="_n0fzhlt7v3u3" class="anchor"></span>*\# run the game*
-
-<span id="_kqeu862vxwq" class="anchor"></span>currentGame.start\_game()
-
-<span id="_l7843vrdknz8" class="anchor"></span>*\# Meanwhile do
-something else*
-
-<span id="_uhck1uwy7qg7" class="anchor"></span>*\# Doing something
-else...*
-
-<span id="_ea7dy1k5gqtp" class="anchor"></span>*\# Doing something
-else...*
-
-<span id="_uipwax7n69oh" class="anchor"></span>*\# Doing something
-else...*
-
-<span id="_lhu2v6e4lj2x" class="anchor"></span>*\# It is time to end the
-game now*
-
-<span id="_b5eoa49tl0i4" class="anchor"></span>*\# Stop the game*
-
-<span id="_722lnbrrzpef" class="anchor"></span>currentGame.stop\_game()
-
-<span id="_xn422nqgj49c" class="anchor"></span>
-
-<span id="_cijxbsy4vx0g" class="anchor"></span>
-
-<span id="_eyoeutzftmnu" class="anchor"></span>
-
-<span id="_gjdgxs" class="anchor"></span>
+Blueprint ednotlivých tříd [jsou dostupné zde](https://github.com/gymgeek/led_panel/tree/master/source/BBB/blueprints)
