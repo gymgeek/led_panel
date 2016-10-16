@@ -82,45 +82,53 @@ bez nutnosti ukončovat aktuální hru tlačítkem cancel.
 
 2.2Fungování SW menu
 --------------------
-
-Bude se jednat o dvouvláknovou aplikaci. Jedno vlákno bude zajišťovat
-komunikaci s HW menu a na základě toho pouštět jednotlivé hry v druhém
-vlákně.
+Jedná se o service-like aplikaci, která obstarává párování wiimotes,
+a komunikaci s HW menu a podle toho pouští jednotlivé hry, jejichž 
+logika běží v paralelním vlákně.
 
 ### 2.2.1 Třída samotné hry.
 
-Třída hry bude obsahovat následující funkce a proměnné, kterými bude
+Třída hry musí implementovat následující jednotné rozhraní, kterým bude
 ovladatelná. Před spuštěním se vždy vybraná třída hry uloží do proměnné
 `currentGame`, na kterou se budou volat dané metody, tudíž je nezbytné
-je následující metody implementovat, i pokud nejsou potřeba.
+tyto metody implementovat, i pokud nejsou potřeba.
 
-#### 2.2.1.1 `prepare(self svetelnypanel, wiimote1, wiimote2, infrapen):`
+#### 2.2.1.1 `prepare(self, svetelny_panel, wiimote1, wiimote2, infrapen):`
 
-Zavolá se před spuštěním hry. V parametrech jsou předány třídy
+Zavolá se před spuštěním hry. V parametrech jsou předány instance
 svetelnypanel a infrapen a objekty obou wiimote.
 
-#### 2.2.1.2 `startGame(self):`
+#### 2.2.1.2 `start_game(self):`
 
-Funkce obstarávající herní logiku, bude zavolána hned po `prepare`.
-Bude/Musí obsahovat nekonečnou smyčku, která poběží v druhém vlákně, ale
-smyčka musí být přerušitelná pomocí `isActive`
+Funkce, kterou se pouští hra. Je zavolána hned po `prepare`. Po zavolání se 
+nastaví stav proměnné, která řídi běh hry na True (`self.running = True`) a pustí 
+se paralelní vlákno (zavoláním `self.start()`) s herní logikou (veškerá herní logika je 
+implementována v metodě `self.gameloop(self)`), které běží tak dlouho, dokud
+proměná `self.running` není False.
 
-#### 2.2.1.3 `isActive`
 
-Těsně před zavoláním `startGame` bude nastavena na True. Pokud bude
-třeba hru ukončit, nastaví se na False, to bude signál pro smyčku
-`startGame` aby se přerušila. Hra by se měla ukončit nejpozději za jednu
-vteřinu, poté bude vlákno *startGame* násilně ukončeno a připraveno
-spuštění další hry.
+#### 2.2.1.3 `self.running`
 
-#### 2.2.1.4`terminate(self):`
+Kritická proměná ovládající běh hry. Těsně před zavoláním `start_game`
+bude nastavena na True. Pokud bude třeba hru ukončit, nastaví se na False, 
+to bude signál pro smyčku herní logiky v `self.gameloop()`, aby se přerušila. 
+Hra by se měla ukončit nejpozději za jednu vteřinu, poté bude vlákno hry 
+násilně ukončeno a připraveno spuštění další hry.
 
-Bude zavoláno po ukončení
-druhého vlákna s `startGame`.
+#### 2.2.1.4`stop_game(self):`
+
+Metoda, kterou se stopuje hra. Nastaví hodnotu proměné `self.running` na False,
+tím ukončí běh herní smyčky v `self.gameloop()`.
+
+
+Herní třída musí mimo výše zmíněné metody implementovat ještě rozhraní `threading.Thread`,
+je tedy třeba implementovat metodu `run(self)`, která se spouští v paralelním vlákně,
+a jež bude pouštět herní smyčku. Dále je třeba v konstruktoru herní třídy spustit
+konstruktor třídy ze které herní třída dědí (`threading.Thread.__init__(self)`).
 
 
 ### 2.2.2 Návrh herní třídy
-Blueprint ednotlivých tříd [jsou dostupné zde](https://github.com/gymgeek/led_panel/tree/master/source/BBB/blueprints)
+Blueprint jednotlivých tříd [jsou dostupné zde](https://github.com/gymgeek/led_panel/tree/master/source/BBB/blueprints)
 
 ### 2.2.3 Sériová komunikace s HW menu
 Pro označení jednotlivých tlačítek se používají byty v hodnotě 65-80, tj. ASCII hodnoty pro písmena A-P. Pokud dojde ke stisknutí tlačítka na menu, odešle Arduino po sériové lince odpovídající znak. Pokud je ze strany BBB požadováno rozsvícení LEDky, jsou do Arduina po sériové lince poslány dva znaky - jeden označuje LEDku příslušného tlačítka, druhý stav.
