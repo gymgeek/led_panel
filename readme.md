@@ -63,11 +63,12 @@ HW menu sestává ze 16 tlačítek, každé s LEDkou, oboje zapojené jako 4x4
 matrix. Ovládání bude zajišťovat Arduino, komunikace s BBB po sériové
 lince. Tlačíka jsou značena abecedně, odshora dolu, zleva doprava. Rozvržení tlačítek bude následující:
 
-
-  | A: Párování Wiimote 1                | B: Had     | C:      | D: Přednastavený text 1
-  | E: Párování Wiimote 2                | F: Tetris  | G:      | H: Přednastavený text 2
-  | I: Kalibrace infrapera (Wiimote 2)   | J: 2048    | K:      | L: Přednastavený text 3
-  | M: Cancel                            | N: Kreslení| O:      | P: Přednastavený text 4
+| 1. sloupec |  2. sloupec | 3. sloupec | 4. sloupec | 
+|---|---|---|---|
+| A: Párování Wiimote 1                | B: Had     | C:      | D: Přednastavený text 1 |
+| E: Párování Wiimote 2                | F: Tetris  | G:      | H: Přednastavený text 2 |
+| I: Kalibrace infrapera (Wiimote 2)   | J: 2048    | K:      | L: Přednastavený text 3 |
+| M: Cancel                            | N: Kreslení| O:      | P: Přednastavený text 4 |
 
 Při spárovaném Wiimote bude LEDka svítit, při odpojeném bude zhasnutá.
 Pokud bude prováděna kalibrace nebo párování, LEDka bude blikat. Po
