@@ -20,24 +20,24 @@ Aktuálně používaná třída
 
 Třída pro práci s infraperem.
 
-#### 1.1.3.1 \_\_init\_\_(self,wiimote):
+#### 1.1.3.1 `\_\_init\_\_(self,wiimote):`
 
 Počáteční inicializace, dostane objekt wiimote použitého jako
 infrakamera
 
-#### 1.1.3.2 calibrate(self):
+#### 1.1.3.2 `calibrate(self):`
 
 Zkalibruje infrapero jak tomu bylo doposud. Běží v paralelním vlákně,
 které je zastavitelné metodou cancelCalibration.
 
-#### 1.1.3.3 cancelCalibration(self):
+#### 1.1.3.3 `cancelCalibration(self):`
 
 Pokud bude při kalibraci zavolána tato metoda, , kalibrace se přeruší.
 Využití např. pokud už je jasné, že wiimote je špatně natočen a
 kalibraci nebude možné dokončit, půjde zrušit stiskem cancel na
 ovládacím menu.
 
-#### 1.1.3.4 getCord(self,timeout=0.5):
+#### 1.1.3.4 `getCord(self,timeout=0.5):`
 
 Vrátí souřadnice kliknutí infrapera na panel. Pokud dojde ke kliknutí
 pod panel, bude vrácena záporná Y souřadnice. Pokud nedošlo ke kliknutí,
@@ -45,7 +45,7 @@ vrátí None. Doba čekání na kliknutí je určena parametrem timeout
 v sekundách, nejvýše však 0.5 sekundy, aby to zde nezůstalo viset při
 ukončení hry.
 
-*return (x, y)*
+`return (x, y)`
 
 2. Panel menu
 =============
@@ -91,32 +91,32 @@ vlákně.
 
 Třída hry bude obsahovat následující funkce a proměnné, kterými bude
 ovladatelná. Před spuštěním se vždy vybraná třída hry uloží do proměnné
-*currentGame*, na kterou se budou volat dané metody, tudíž je nezbytné
+`currentGame`, na kterou se budou volat dané metody, tudíž je nezbytné
 je následující metody implementovat, i pokud nejsou potřeba.
 
-#### 2.2.1.1 prepare(self svetelnypanel, wiimote1, wiimote2, infrapen):
+#### 2.2.1.1 `prepare(self svetelnypanel, wiimote1, wiimote2, infrapen):`
 
 Zavolá se před spuštěním hry. V parametrech jsou předány třídy
 svetelnypanel a infrapen a objekty obou wiimote.
 
-#### 2.2.1.2 startGame(self):
+#### 2.2.1.2 `startGame(self):`
 
-Funkce obstarávající herní logiku, bude zavolána hned po *prepare*.
+Funkce obstarávající herní logiku, bude zavolána hned po `prepare`.
 Bude/Musí obsahovat nekonečnou smyčku, která poběží v druhém vlákně, ale
-smyčka musí být přerušitelná pomocí *isActive*
+smyčka musí být přerušitelná pomocí `isActive`
 
-#### 2.2.1.3 isActive
+#### 2.2.1.3 `isActive`
 
-Těsně před zavoláním *startGame* bude nastavena na True. Pokud bude
+Těsně před zavoláním `startGame` bude nastavena na True. Pokud bude
 třeba hru ukončit, nastaví se na False, to bude signál pro smyčku
-*startGame* aby se přerušila. Hra by se měla ukončit nejpozději za jednu
+`startGame` aby se přerušila. Hra by se měla ukončit nejpozději za jednu
 vteřinu, poté bude vlákno *startGame* násilně ukončeno a připraveno
 spuštění další hry.
 
-#### 2.2.1.4 terminate(self):
+#### 2.2.1.4`terminate(self):`
 
 Bude zavoláno po ukončení
-druhého vlákna s *gameLogic*.
+druhého vlákna s `startGame`.
 
 
 ### 2.2.2 Návrh herní třídy
