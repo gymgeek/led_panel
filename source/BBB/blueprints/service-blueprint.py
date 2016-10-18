@@ -1,10 +1,9 @@
-from svetelny_panel import Svetelny_panel
-from wiimote import Wiimote
-from infrapen import Infrapen
-
 # Import all games here
-from snake import Snake
 from tetris import Tetris
+
+from source.BBB.snake import Snake
+
+
 # .....
 # .....
 # .....
