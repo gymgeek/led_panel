@@ -3,6 +3,7 @@ from testGame import testGame
 import time
 import svetelny_panel as led_panel
 from snake import Snake
+from text1 import Text1
 
 class Service:
     led_panel = None
@@ -19,7 +20,7 @@ class Service:
     games = {
         "B": Snake,
         "C": testGame,
-        "D": None,
+        "D": Text1,
 
         "F": None,
         "G": testGame,
