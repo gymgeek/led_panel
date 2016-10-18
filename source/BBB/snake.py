@@ -40,7 +40,7 @@ class Snake(threading.Thread):
         self.LEFT = False
 
         self.snake_color_phase_r = random.random() * 2 * math.pi
-        self.snake_c1olor_phase_g = random.random() * 2 * math.pi
+        self.snake_color_phase_g = random.random() * 2 * math.pi
         self.snake_color_phase_b = random.random() * 2 * math.pi
 
         self.direction = [0, 1]
@@ -131,7 +131,7 @@ class Snake(threading.Thread):
 
             if (time.time() - last_move) > self.DELAY:  # Automatic move
                 last_move = time.time()
-                self.game.step()
+                self.step()
 
 
 
