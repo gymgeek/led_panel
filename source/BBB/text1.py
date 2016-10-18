@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import threading
 from helper_libs import textViewer
 
@@ -5,7 +7,7 @@ from helper_libs import textViewer
 
 
 class Text1 (threading.Thread):
-    TEXT=u"šli dva a prostřední upad."
+    TEXT="sli dva a prostredni upadl."
 
 
     def __init__(self):
