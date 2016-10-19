@@ -1,6 +1,7 @@
 from transform import Transform
 import time, threading
 
+
 class Infrapen(threading.Thread):
     WIDTH = 15
     HEIGHT = 9
@@ -13,12 +14,10 @@ class Infrapen(threading.Thread):
         self.transform = Transform()
 
         # sets outer points positions
-        self.transform.setdst((0, 0), (self.WIDTH - 1, 0), (0, self.HEIGHT -1), (self.WIDTH - 1, self.HEIGHT - 1))
-
+        self.transform.setdst((0, 0), (self.WIDTH - 1, 0), (0, self.HEIGHT - 1), (self.WIDTH - 1, self.HEIGHT - 1))
 
     def run(self):
         self.calibrate_in_parallel()
-
 
     def calibrate_in_parallel(self):
         # method which calibrates pen in parallel thread
@@ -27,7 +26,7 @@ class Infrapen(threading.Thread):
         self.svetelny_panel.panel_clear()
         self.svetelny_panel.set_pixel_color(self.svetelny_panel.matrix(0, 0), "ffffff")
         print "klikni vlevo dole"
-        ld = self.getCalibratingCoordinates()
+        ld = self.get_calibrating_coordinates()
         self.svetelny_panel.panel_clear()
         print ld
         self.wait_until_pen_released()
@@ -38,7 +37,7 @@ class Infrapen(threading.Thread):
 
         self.svetelny_panel.set_pixel_color(self.svetelny_panel.matrix(0, self.WIDTH - 1), "ffffff")
         print "klikni vpravo dole"
-        pd = self.getCalibratingCoordinates()
+        pd = self.get_calibrating_coordinates()
         self.svetelny_panel.panel_clear()
         print pd
         self.wait_until_pen_released()
@@ -49,7 +48,7 @@ class Infrapen(threading.Thread):
             return
 
         print "klikni vlevo nahore"
-        lh = self.getCalibratingCoordinates()
+        lh = self.get_calibrating_coordinates()
         self.svetelny_panel.panel_clear()
         print lh
         self.wait_until_pen_released()
@@ -61,7 +60,7 @@ class Infrapen(threading.Thread):
         self.svetelny_panel.panel_clear()
         self.svetelny_panel.set_pixel_color(self.svetelny_panel.matrix(self.HEIGHT - 1, self.WIDTH - 1), "ffffff")
         print "klikni pravo nahore"
-        ph = self.getCalibratingCoordinates()
+        ph = self.get_calibrating_coordinates()
         self.svetelny_panel.panel_clear()
         print ph
         self.wait_until_pen_released()
@@ -72,8 +71,6 @@ class Infrapen(threading.Thread):
         self.transform.setsrc(lh, ph, ld, pd)
         print "konfigurace dokoncena"
 
-
-
     def wait_one_second(self):
         # waiting method when calibrating
         # simple time.sleep cannot be used, because it must be interruptable by setting self.calibrating to False
@@ -81,14 +78,12 @@ class Infrapen(threading.Thread):
         while self.calibrating:
             if time.time() - start_time > 1:
                 return
-            
-
-
 
     def calibrate(self):
         if self.calibrating:
             print ("Already calibrating!")
-        # initializes thread
+            return
+            # initializes thread
         threading.Thread.__init__(self)
 
         self.calibrating = True
@@ -96,14 +91,8 @@ class Infrapen(threading.Thread):
         # starts calibrating thread
         self.start()
 
-
-
-
-
-    def cancelCalibration(self):
+    def cancel_calibration(self):
         self.calibrating = False
-
-
 
     def wait_until_pen_released(self):
         # return when pen is released or calibrating thread has been stopped
@@ -112,22 +101,16 @@ class Infrapen(threading.Thread):
             if cord == None:
                 return
 
-
-
-
-    def getCalibratingCoordinates(self):
+    def get_calibrating_coordinates(self):
         # method is interrupted when self.calibrating is set to False
         while self.calibrating:
             cord = self.wiimote2.state["ir_src"][0]
-            
+
             # if wiimotes gets some signal from infrapen
             if cord != None:
                 return cord["pos"]
-            
 
-            
-            
-    def getTransformedCoordinates(self, timeout = 0.2):
+    def get_transformed_coordinates(self, timeout=0.2):
         start_time = time.time()
 
         coords = None
@@ -143,14 +126,7 @@ class Infrapen(threading.Thread):
             # it timeouts
             if time.time() - start_time > timeout:
                 return None
-            
-            
+
         x, y = self.transform.warp(coords[0], coords[1])
-        
+
         return int(round(x)), int(round(y))
-
-
-
-
-
-

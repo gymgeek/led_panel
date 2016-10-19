@@ -69,7 +69,7 @@ class Drawing(threading.Thread):
         while self.running:
 
             # Read coordinates from infrapen
-            coords = self.infrapen.getTransformedCoordinates()
+            coords = self.infrapen.get_transformed_coordinates()
             if coords == None:
                 continue
 
