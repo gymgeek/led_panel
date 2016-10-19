@@ -12,10 +12,8 @@ class TextViewer():
 
 
     def show_text(self, text, text_color = "FF69B4"):
-        text, textwidth = textHandler.make_text("Už umíme háčky i čárky!".decode("utf-8"), x_shift=16, y_shift=0,
+        text, textwidth = self.textHandler.make_text(text.decode("utf-8"), x_shift=16, y_shift=0,
                                                 color=text_color)  # Text is shifted 16 pixels horizonataly to right at the very beggining
-
-
 
         engine = MatrixEngine(text)
 

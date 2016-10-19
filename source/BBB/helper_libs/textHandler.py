@@ -1,5 +1,5 @@
 from matrixHandler import *
-import sys, colors
+import sys, os
 
 
 class CharMatrix:
@@ -25,8 +25,10 @@ class TextHandler:
 
 
     def __init__(self, path_to_font="fonts.dat"):
+        s = os.path.realpath(__file__)
+        basedir = s[:(len(s) - s[::-1].index('/'))] # gets directory of this script
 
-        self.load_font(path_to_font)
+        self.load_font(basedir + path_to_font)
 
 
     def load_font(self, path):
@@ -55,7 +57,7 @@ class TextHandler:
                     
 
 
-    def make_text(self, text, x_shift=0, y_shift=0, space_between=0, color=colors.WHITE):
+    def make_text(self, text, x_shift=0, y_shift=0, space_between=0, color="ffffff"):
 
         print "Making text:" + text.encode("utf-8")
         #Makes MatrixObject sequence
