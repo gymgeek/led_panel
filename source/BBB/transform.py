@@ -12,27 +12,27 @@ class Transform:
     srcdots = [(0.0, 0.0), (1.0, 0.0), (0.0, 1.0), (1.0, 1.0)]
 
     def __init__(self):
-        self.computeWarpMatrix()
+        self.compute_warp_matrix()
 
     # konfigurace, rohy z pohledu kamery
     def setsrc(self, dot1, dot2, dot3, dot4):
 
         self.srcdots = [(float(dot[0]), float(dot[1])) for dot in [dot1, dot2, dot3, dot4]]
 
-        self.computeWarpMatrix()
+        self.compute_warp_matrix()
 
     # rozmery panelu
     # (0,0), (15,0), (0, 9), (15,9) 
     def setdst(self, dot1, dot2, dot3, dot4):
         self.dstdots = [dot1, dot2, dot3, dot4]
-        self.computeWarpMatrix()
+        self.compute_warp_matrix()
 
-    def computeWarpMatrix(self):
+    def compute_warp_matrix(self):
         self.srcmatrix = self.computeQuadToSquare(self.srcdots)
-        self.dstmatrix = self.computeSquareToQuad(self.dstdots)
+        self.dstmatrix = self.compute_square_to_quad(self.dstdots)
         self.warpmatrix = self.multMats(self.srcmatrix, self.dstmatrix)
 
-    def computeSquareToQuad(self, inputdots):
+    def compute_square_to_quad(self, inputdots):
         x0, y0 = inputdots[0]
         x1, y1 = inputdots[1]
         x2, y2 = inputdots[2]
@@ -77,7 +77,7 @@ class Transform:
         x1, y1 = inputdots[1]
         x2, y2 = inputdots[2]
         x3, y3 = inputdots[3]
-        mat = self.computeSquareToQuad(inputdots)
+        mat = self.compute_square_to_quad(inputdots)
 
         a = mat[0]
         d = mat[1]
