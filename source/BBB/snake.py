@@ -1,7 +1,6 @@
 import random, sys, colors, time, math, threading
 
 
-
 class Snake(threading.Thread):
     DELAY = 0.15  # Delay between steps in seconds
 
@@ -28,11 +27,6 @@ class Snake(threading.Thread):
 
         self.reset()
 
-
-
-
-
-
     def reset(self):
         self.RIGHT = False
         self.UP = False
@@ -48,15 +42,12 @@ class Snake(threading.Thread):
 
         self.generate_food()
 
-
-
     def prepare(self, svetelny_panel, wiimote1, wiimote2, infrapen):
         self.svetelny_panel = svetelny_panel
         self.wiimote1 = wiimote1
         self.wiimote2 = wiimote2
         self.infrapen = infrapen
         print("Preparing Snake game...")
-
 
     def start_game(self):
         self.running = True
@@ -70,10 +61,6 @@ class Snake(threading.Thread):
     def run(self):
         # This method should never be called manually, this runs in parallel thread and is executed by <thread>.start() call
         self.gameloop()
-
-
-
-
 
     def gameloop(self):
         # Here is all the logic of game
@@ -121,28 +108,20 @@ class Snake(threading.Thread):
             else:
                 self.DOWN = False  # Button released
 
-
             if buttons & 128:
                 # Home button
                 # Reset the game
                 self.game_over()
 
-
-
             if (time.time() - last_move) > self.DELAY:  # Automatic move
                 last_move = time.time()
                 self.step()
-
-
-
-
 
     def generate_food(self):
         while True:
             self.food = [random.randint(0, self.WIDTH - 1), random.randint(0, self.HEIGHT - 1)]
             if self.food not in self.body:
                 return
-
 
     def build_matrix(self):
         matrix = [[colors.BLACK for x in range(self.WIDTH)] for y in range(self.HEIGHT)]
@@ -170,8 +149,6 @@ class Snake(threading.Thread):
         matrix[self.food[1]][self.food[0]] = hex(self.FOOD_INTENSITY)[2:] + "0000"
 
         return matrix
-
-
 
     def print_to_console(self, render_board):
         print "-------------"
@@ -240,15 +217,12 @@ class Snake(threading.Thread):
         matrix = self.build_matrix()
         self.svetelny_panel.set_panel_memory_from_matrix(matrix)
 
-
-
     def step(self):
         passed = self.move()
         if not passed:  # Game Over
             self.game_over()
 
         self.show()
-
 
     def game_over(self):
 
@@ -281,13 +255,6 @@ class Snake(threading.Thread):
         if self.body[1] != new_pos:  # Check wheter direction change is valid
             self.direction = [0, 1]
 
-
     def wait_until_released(self, wi):
         while wi.state["buttons"] > 0:
             pass
-
-
-
-
-
-
