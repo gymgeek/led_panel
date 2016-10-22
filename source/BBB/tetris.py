@@ -345,15 +345,14 @@ class Tetris(threading.Thread):
             if self.isOnPanel(x, board_down):
                 render_board[board_down][x] = BOARDER_COLOR        # Bottom edge
 
-        """
+
         # Score
         for magnitude, digit in enumerate(str(self.score)[::-1]):
             for r in range(int(digit)):
-                xabs = 13 - magnitude + xshift
-                yabs = r + yshift
-                if (xabs < 15 and xabs >=0 and yabs < 9 and yabs >= 0):
+                xabs = 13 - magnitude + X_SHIFT
+                yabs = r + Y_SHIFT
+                if self.isOnPanel(xabs, yabs):
                     render_board[yabs][xabs] = MAGNITUDE_COLORS[magnitude]
-        """         
         
         
         
@@ -388,8 +387,6 @@ class Tetris(threading.Thread):
 
             if self.falling_piece.y + self.falling_piece.get_up_position() < 0:        # Part of the falling piece is out of the board
                 gameOver = True
-                print "Game OVER"
-                print self.falling_piece.y + self.falling_piece.get_up_position()
                 
             self.falling_piece = Piece()
             
@@ -480,9 +477,6 @@ class Tetris(threading.Thread):
                     continue
                 
                 if self.board[yabs][xabs] != BLACK:
-                    print "self.board[yabs][xabs] != BLACK:"
-                    print "xabs, yabs:", xabs, yabs
-                    print "self.board[yabs][xabs]", self.board[yabs][xabs]
                     return False
                 
         return True
