@@ -12,9 +12,9 @@ int states[4][4] = {{0, 0, 0, 0},
 const byte ROWS = 4; 
 const byte COLS = 4; 
 char hexaKeys[ROWS][COLS] = {
-  {'A','B','C','D'},
-  {'E','F','G','H'},
-  {'I','J','K','L'},
+  {'B','C','D','A'},
+  {'F','G','H','E'},
+  {'J','K','L','I'},
   {'M','N','O','P'}
 };
 byte rowPins[ROWS] = {5, 4, 3, 2}; 
