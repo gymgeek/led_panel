@@ -13,6 +13,8 @@ class Infrapen(threading.Thread):
         self.wiimote2 = wiimote2
         self.transform = Transform()
 
+        self.calibrating = False
+
         # sets outer points positions
         self.transform.setdst((0, 0), (self.WIDTH - 1, 0), (0, self.HEIGHT - 1), (self.WIDTH - 1, self.HEIGHT - 1))
 
