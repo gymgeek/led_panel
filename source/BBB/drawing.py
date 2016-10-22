@@ -7,7 +7,7 @@ class Drawing(threading.Thread):
     HEIGHT = 9
 
 
-    SAVE_DRAWINGS = False
+    SAVE_DRAWINGS = True
 
 
     # Colors that are available for drawing
