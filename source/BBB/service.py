@@ -5,6 +5,7 @@ import svetelny_panel as led_panel
 from snake import Snake
 from text1 import Text1
 from infrapen import Infrapen
+from drawing import Drawing
 
 
 class Service:
@@ -25,7 +26,7 @@ class Service:
     # prirazeni her
     games = {
         "B": Snake,
-        "C": testGame,
+        "C": Drawing,
         "D": Text1,
 
         "F": None,
