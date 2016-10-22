@@ -39,7 +39,11 @@ class HWmenu:
     def main_loop(self):
         while 1:
             buttons = self.check_for_button_push()
-            response = self.server.api(buttons)
+            try:
+                response = self.server.api(buttons)
+            except:
+                print("Server unreachable")
+                return
             self.set_leds(response)
             print(buttons)
 
