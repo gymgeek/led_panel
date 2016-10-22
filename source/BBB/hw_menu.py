@@ -43,7 +43,7 @@ class HWmenu:
                 response = self.server.api(buttons)
             except:
                 print("Server unreachable")
-                return
+                continue
             self.set_leds(response)
             print(buttons)
 
