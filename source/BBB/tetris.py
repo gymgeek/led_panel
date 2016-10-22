@@ -402,7 +402,7 @@ class Tetris(threading.Thread):
                 newboard.append(row)
             else:
                 number_of_complete_lines += 1
-                self.score += 8
+                self.score += 1
 
 
         
