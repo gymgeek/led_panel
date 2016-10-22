@@ -101,6 +101,7 @@ class Infrapen(threading.Thread):
     def cancel_calibration(self):
         print "Canceling calibration"
         self.calibrating = False
+        self.svetelny_panel.panel_clear()
 
     def wait_until_pen_released(self):
         # return when pen is released or calibrating thread has been stopped

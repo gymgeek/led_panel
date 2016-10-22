@@ -180,6 +180,7 @@ class Service:
 
     def calibrate_infrapen(self, _x):
         print("Calibrating infrapen")
+        self.state = self.states["calibrating_pen"]
         self.set_one_led(_x, "C")
         self.infrapen = Infrapen(self.led_panel, self.wiimote2)
         self.infrapen.calibrate()
@@ -190,6 +191,9 @@ class Service:
         if self.state == self.states["playing_game"]:
             self.end_current_game()
             self.state = self.states["idle"]
+        elif self.state == self.states["calibrating_pen"]:
+            self.infrapen.cancel_calibration()
+
 
     # jednotlive akce tlacitek
     actions = {"A": pair_wiimote,
