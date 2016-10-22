@@ -239,6 +239,6 @@ except:
     server.server_close()
     if service.wiimote1:
         service.wiimote1.close()
-    if server.wiimote2:
+    if service.wiimote2:
         service.wiimote2.close()
     print("terminating server")
