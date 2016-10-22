@@ -356,7 +356,7 @@ class Tetris(threading.Thread):
         
         
 
-        self.print_board(render_board)
+#        self.print_board(render_board)
         self.led_panel.set_panel_memory_from_matrix(render_board)   
 
         
