@@ -4,6 +4,7 @@ import time
 import svetelny_panel as led_panel
 from snake import Snake
 from text1 import Text1
+from infrapen import Infrapen
 
 
 class Service:
@@ -168,7 +169,8 @@ class Service:
     def calibrate_infrapen(self, _x):
         print("Calibrating infrapen")
         self.set_one_led(_x, "C")
-        time.sleep(2)
+        self.infrapen = Infrapen(self.led_panel,self.wiimote2)
+        self.infrapen.run()
 
     # ukonceni aktualni hry
     def cancel(self, _x):
