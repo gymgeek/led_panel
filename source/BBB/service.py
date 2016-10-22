@@ -2,7 +2,7 @@ from SimpleXMLRPCServer import SimpleXMLRPCServer
 from testGame import testGame
 import traceback
 import time
-import svetelny_panel as led_panel
+import svetelny_panel as Led_panel
 from snake import Snake
 from text1 import Text1
 from infrapen import Infrapen
@@ -10,10 +10,10 @@ from drawing import Drawing
 
 
 class Service:
-    led_panel = None
+    led_panel = Led_panel
     wiimote1 = None
     wiimote2 = None
-    infrapen = None
+    infrapen = Infrapen
     current_game = None
     current_game_index = "M"
 
@@ -83,7 +83,7 @@ class Service:
 
         # vykonani tlacitek z fronty
         for button in self.button_todo:
-           
+
 
             # Cancel whaever is running (game, calibration etc.)
             self.cancel()
