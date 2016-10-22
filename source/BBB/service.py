@@ -214,6 +214,7 @@ class Service:
         print(self.wiimote2)
         # during calibrating infrapen led
         self.set_one_led(_x, "C")
+        self.infrapen = Infrapen(self.led_panel, self.wiimote2)
         self.infrapen.calibrate()
 
     # ukonceni aktualni hry
