@@ -1,5 +1,6 @@
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 from testGame import testGame
+import traceback
 import time
 import svetelny_panel as led_panel
 from snake import Snake
@@ -242,4 +243,5 @@ except Exception as e:
     if service.wiimote2:
         service.wiimote2.close()
     print("terminating server, handled exception")
+    traceback.print_exc()
     print(e)
