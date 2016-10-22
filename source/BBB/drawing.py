@@ -33,7 +33,13 @@ class Drawing(threading.Thread):
 
 
     def start_game(self):
+        if self.infrapen is None:
+            print "Infrapen is not initialized!"
+            return
+
+
         self.running = True
+
         print("Starting the game Drawing...")
         # This starts the parallel thread (self.run() method is called)
         self.start()

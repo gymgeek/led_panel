@@ -83,6 +83,11 @@ class Infrapen(threading.Thread):
         if self.calibrating:
             print ("Already calibrating!")
             return
+
+
+        if self.wiimote2 is None:
+            print("Wiimote 2 is not initialized!")
+            return
             # initializes thread
         threading.Thread.__init__(self)
 
