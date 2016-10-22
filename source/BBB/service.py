@@ -2,7 +2,7 @@ from SimpleXMLRPCServer import SimpleXMLRPCServer
 from testGame import testGame
 import traceback
 import time
-import svetelny_panel as led_panel
+import svetelny_panel as Led_panel
 from snake import Snake
 from text1 import Text1
 from infrapen import Infrapen
@@ -10,19 +10,21 @@ from drawing import Drawing
 
 
 class Service:
-    led_panel = None
+    led_panel = Led_panel
     wiimote1 = None
     wiimote2 = None
     infrapen = None
     current_game = None
+    current_game_index = "M"
 
     # posledi a predposledni zmacknute tlacitko
-    last_button = "M"
-    current_button = "M"
+
     # akce k vykonani z posledniho volani API
     button_todo = []
     serPort = None
     state = 0
+
+    infra_was_calibrated_once = False
 
     # prirazeni her
     games = {
@@ -38,6 +40,7 @@ class Service:
         "K": None,
         "L": None,
 
+        "M": None,
         "N": None,
         "O": None,
         "P": None,
@@ -72,10 +75,9 @@ class Service:
               }
 
     def __init__(self):
-        self.led_panel = led_panel
+        self.led_panel = Led_panel
+        self.infrapen = Infrapen(self.led_panel, self.wiimote2)
         self.service_loop()
-
-
 
     def service_loop(self):
         # Main Service loop
@@ -83,10 +85,6 @@ class Service:
         # vykonani tlacitek z fronty
         for button in self.button_todo:
 
-            # Update last_button and current_button for set_leds() method to be able to switch off last_button led
-            # and switch on current_button led
-            self.last_button = self.current_button
-            self.current_button = button
 
             # Cancel whaever is running (game, calibration etc.)
             self.cancel()
@@ -97,11 +95,8 @@ class Service:
             # odebrat tlacitko z fronty
             self.button_todo.remove(button)
 
-            # nastaveni LEDek podle aktualniho stavu
-            self.set_leds()
-
-
-
+        # nastaveni LEDek podle aktualniho stavu
+        self.set_leds()
 
     # funkce pro vnejsi interakci, registrovana do XMLRPC
     def api(self, buttons):
@@ -120,10 +115,15 @@ class Service:
 
     # parovani wiimote
     def pair_wiimote(self, button):
+        self.state = self.states["pairing_wiimote"]
         print("Pairing wiimote " + str({"A": 1, "E": 2}[button]))
-
-        # Pair wiimote 1
+        self.set_one_led(button, "C")
         if button == "A":
+            if self.wiimote1 is not None:
+                self.wiimote1.close()
+                self.wiimote1 = None
+                print("Closing wiimote1")
+                return
             self.wiimote1 = self.led_panel.winit()
             if not self.wiimote1:
                 print("Pairing wiimote1 failed")
@@ -133,42 +133,43 @@ class Service:
 
         # Pair wiimote 2
         elif button == "E":
+            if self.wiimote2 is not None:
+                self.wiimote2.close()
+                self.wiimote2 = None
+                print("Closing wiimote2")
+                return
             self.wiimote2 = self.led_panel.winit()
             if not self.wiimote2:
                 print("Pairing wiimote2 failed")
                 self.wiimote2 = None
                 return
             print ("Wiimote 2 was paired successfully")
+        self.state = self.states["idle"]
 
     # nastaveni LEDek
     def set_leds(self):
 
         # indicate wiimotes states
-        if self.wiimote1:
+        if self.wiimote1 is not None:
             self.set_one_led("A", "B")
         else:
             self.set_one_led("A", "A")
 
-        if self.wiimote2:
+        if self.wiimote2 is not None:
             self.set_one_led("E", "B")
         else:
             self.set_one_led("E", "A")
 
-
-
-
-
-        # rozsviceni stavu aktualni hry
-        if self.last_button != self.current_button:
-            # Switch off last led
-            self.set_one_led(self.last_button, "A")
-
-            # Switch on current led
-            self.set_one_led(self.current_button, "B")
-
-        # indikace kalibrace, TODO
-        if self.led_states["I"] == "C":  # infrapero jiz bylo zkalibrovano
+        if self.infrapen.calibrating:
+            self.set_one_led("I", "C")
+        elif self.infra_was_calibrated_once:
             self.set_one_led("I", "B")
+        else:
+            self.set_one_led("I", "A")
+
+        for key in self.games.keys():
+            self.set_one_led(key, "A")
+        self.set_one_led(self.current_game_index, "B")
 
     # nastaveni jednotlivych ledek
     def set_one_led(self, led, state):
@@ -178,6 +179,7 @@ class Service:
     # spusteni vybrane hry
     def start_chosen_game(self, chosenGame):
         # pokud je jiz spustena hra, ukonci ji
+        self.current_game_index = chosenGame
         if self.state == self.states["playing_game"]:
             self.end_current_game()
         # nastav aktualni stav
@@ -206,16 +208,13 @@ class Service:
 
             self.state = self.states["idle"]
 
-
     def calibrate_infrapen(self, _x):
         print("Calibrating infrapen")
         self.state = self.states["calibrating_pen"]
 
         # during calibrating infrapen led
         self.set_one_led(_x, "C")
-        self.infrapen = Infrapen(self.led_panel, self.wiimote2)
         self.infrapen.calibrate()
-
 
     # ukonceni aktualni hry
     def cancel(self, _x="M"):
@@ -223,9 +222,9 @@ class Service:
         if self.state == self.states["playing_game"]:
             self.end_current_game()
             self.state = self.states["idle"]
+            self.start_chosen_game("M")
         elif self.state == self.states["calibrating_pen"]:
             self.infrapen.cancel_calibration()
-
 
     # jednotlive akce tlacitek
     actions = {"A": pair_wiimote,

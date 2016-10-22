@@ -1,11 +1,13 @@
 long lastRead = 0;
 long lastBlink = 0;
 long blinkState = 0;
-const int pins[8] = {10, 11, 12, 13, A0, A1, A2, A3};
-int states[4][4] = {{0, 0, 0, 0},
-                    {0, 0, 0, 0},
-                    {0, 0, 0, 0},
-                    {0, 0, 0, 0}};
+
+#include <WS2812.h>
+int states[16] = {0, 0, 0, 0,0, 0, 0, 0,0, 0, 0, 0,0, 0, 0, 0,};
+
+WS2812 LED(16); 
+cRGB LedOn;
+cRGB LedOff;
 
 #include <Keypad.h>
 
@@ -23,44 +25,100 @@ Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS
 
 
 void setup() {
+  LED.setOutput(10);
+ 
   Serial.begin(9600);
- for(int i = 0; i < sizeof(pins)/sizeof(int); i++) {
-  pinMode(pins[i], OUTPUT);
-  digitalWrite(pins[i], 0);
- }
+
   lastRead = millis();
+  LedOn.r = 0;
+  LedOn.g = 0;
+  LedOn.b = 255;
+  for(int i = 0; i < 16; i++) {
+      LED.set_crgb_at(i, LedOff);
+  }
+  LED.sync();
 }
 
 
 void loop() {
-  for(int ro = 0; ro < 4; ro++){
-    oneRow(ro);
-    for(int col = 0; col < 4; col++){
-      if(states[ro][col] == 2) {
-        digitalWrite(pins[4+col], blinkState);
+  for(int i = 0; i < 16; i++){    
+      if(states[i] == 2) {
+        if(blinkState){
+            setLed(i, LedOn);
+        }else {
+            setLed(i, LedOff);
+        }
+         
       }
       else {
-        digitalWrite(pins[4+col], !states[ro][col]);
+         if(states[i]){
+            setLed(i, LedOn);
+        }else {
+            setLed(i, LedOff);
+        }
       }
-    }
+  }
+    LED.sync();
     check();
    while(lastRead + 7 > millis()){    
    }
    lastRead = millis();
-  }
+  
 
 }
-
-void oneRow(int row){
-  for(int i = 0; i < 4; i++){
-    digitalWrite(pins[i], 0);
-
+void setLed(int ledPos, cRGB ledVal) {
+  switch(ledPos){ 
+    case 0: // wiimote 1
+      LED.set_crgb_at(0, ledVal);
+      break;
+    case 1: //hra B
+      LED.set_crgb_at(4, ledVal);
+      break;
+    case 2: //hra C
+      LED.set_crgb_at(5, ledVal);
+      break;
+    case 3: //hra D
+      LED.set_crgb_at(6, ledVal);
+      break;
+    case 4://wiimote 2
+      LED.set_crgb_at(1, ledVal);
+      break;
+    case 5: //hraF
+      LED.set_crgb_at(7, ledVal);
+      break;
+    case 6://hra G
+      LED.set_crgb_at(8, ledVal);
+      break;
+    case 7://hra H
+      LED.set_crgb_at(9, ledVal);
+      break;
+    case 8://kalibrace infra
+      LED.set_crgb_at(2, ledVal);
+      break;
+    case 9://hra J
+      LED.set_crgb_at(10, ledVal);
+      break;
+    case 10: //hra K
+      LED.set_crgb_at(11, ledVal);
+      break;
+    case 11: //hra L
+      LED.set_crgb_at(12, ledVal);
+      break;
+    case 12://cancel
+      LED.set_crgb_at(3, ledVal);
+      break;
+    case 13://hra N
+      LED.set_crgb_at(13, ledVal);
+      break;
+    case 14://hra O
+      LED.set_crgb_at(14, ledVal);
+      break;
+    case 15://hra P
+      LED.set_crgb_at(15, ledVal);
+      break;
+   
+    
   }
-   for(int i = 0; i < 4; i++){
-  
-    digitalWrite(pins[4+i], 1);
-  }
-  digitalWrite(pins[row], 1);
 }
 
 void check() {
@@ -82,7 +140,7 @@ void check() {
       Serial.flush();
       return;
     }
-    states[int(recv/4)][3-(recv%4)] = stat;
+    states[recv] = stat;
     return;   
       
     
