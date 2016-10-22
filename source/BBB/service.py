@@ -119,6 +119,10 @@ class Service:
         print("Pairing wiimote " + str({"A": 1, "E": 2}[button]))
         self.set_one_led(button, "C")
         if button == "A":
+            if self.wiimote1 is not None:
+                self.wiimote1.close()
+                self.wiimote1 = None
+                return
             self.wiimote1 = self.led_panel.winit()
             if not self.wiimote1:
                 print("Pairing wiimote1 failed")
@@ -128,6 +132,9 @@ class Service:
 
         # Pair wiimote 2
         elif button == "E":
+            if self.wiimote2 is not None:
+                self.wiimote2.close()
+                self.wiimote2 = None
             self.wiimote2 = self.led_panel.winit()
             if not self.wiimote2:
                 print("Pairing wiimote2 failed")
