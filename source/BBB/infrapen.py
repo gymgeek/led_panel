@@ -19,10 +19,7 @@ class Infrapen(threading.Thread):
         self.transform.setdst((0, 0), (self.WIDTH - 1, 0), (0, self.HEIGHT - 1), (self.WIDTH - 1, self.HEIGHT - 1))
 
     def run(self):
-        if self.wiimote2 is None:
-            print("None wiimote")
-            return
-        self.calibrate_in_parallel()
+       self.calibrate()
 
     def calibrate_in_parallel(self):
         # method which calibrates pen in parallel thread
@@ -98,7 +95,7 @@ class Infrapen(threading.Thread):
         self.calibrating = True
 
         # starts calibrating thread
-        self.start()
+        self.calibrate_in_parallel()
 
     def cancel_calibration(self):
         print "Canceling calibration"
