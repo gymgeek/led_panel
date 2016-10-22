@@ -122,6 +122,7 @@ class Service:
             if self.wiimote1 is not None:
                 self.wiimote1.close()
                 self.wiimote1 = None
+                print("Closing wiimote1")
                 return
             self.wiimote1 = self.led_panel.winit()
             if not self.wiimote1:
@@ -135,6 +136,8 @@ class Service:
             if self.wiimote2 is not None:
                 self.wiimote2.close()
                 self.wiimote2 = None
+                print("Closing wiimote2")
+                return
             self.wiimote2 = self.led_panel.winit()
             if not self.wiimote2:
                 print("Pairing wiimote2 failed")
