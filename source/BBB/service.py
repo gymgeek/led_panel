@@ -235,10 +235,11 @@ def start():
 
 try:
     start()
-except:
+except Exception as e:
     server.server_close()
     if service.wiimote1:
         service.wiimote1.close()
     if service.wiimote2:
         service.wiimote2.close()
-    print("terminating server")
+    print("terminating server, handled exception")
+    print(e)
