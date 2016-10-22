@@ -13,7 +13,7 @@ class Service:
     led_panel = Led_panel
     wiimote1 = None
     wiimote2 = None
-    infrapen = Infrapen
+    infrapen = None
     current_game = None
     current_game_index = "M"
 
@@ -76,6 +76,7 @@ class Service:
 
     def __init__(self):
         self.led_panel = Led_panel
+        self.infrapen = Infrapen(self.led_panel, self.wiimote2)
         self.service_loop()
 
     def service_loop(self):
@@ -203,7 +204,6 @@ class Service:
 
         # during calibrating infrapen led
         self.set_one_led(_x, "C")
-        self.infrapen = Infrapen(self.led_panel, self.wiimote2)
         self.infrapen.calibrate()
 
     # ukonceni aktualni hry
