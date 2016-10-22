@@ -119,23 +119,26 @@ class Service:
         return self.led_states
 
     # parovani wiimote
-    def pair_wiimote(self, index):
-        print("Pairing wiimote " + str({"A": 1, "E": 2}[index]))
-        self.set_one_led(index, "C")
-        if index == "A":
+    def pair_wiimote(self, button):
+        print("Pairing wiimote " + str({"A": 1, "E": 2}[button]))
+
+        # Pair wiimote 1
+        if button == "A":
             self.wiimote1 = self.led_panel.winit()
             if not self.wiimote1:
-                print("Pairing failed")
+                print("Pairing wiimote1 failed")
                 self.wiimote1 = None
                 return
-            print ("Paired wiimote 1")
-        elif index == "E":
+            print ("Wiimote 1 was paired successfully")
+
+        # Pair wiimote 2
+        elif button == "E":
             self.wiimote2 = self.led_panel.winit()
             if not self.wiimote2:
-                print("Pairing failed")
+                print("Pairing wiimote2 failed")
                 self.wiimote2 = None
                 return
-            print ("Paired wiimote 2")
+            print ("Wiimote 2 was paired successfully")
 
     # nastaveni LEDek
     def set_leds(self):
