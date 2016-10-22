@@ -99,6 +99,7 @@ class Infrapen(threading.Thread):
         self.start()
 
     def cancel_calibration(self):
+        print "Canceling calibration"
         self.calibrating = False
 
     def wait_until_pen_released(self):
