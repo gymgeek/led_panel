@@ -247,6 +247,7 @@ def start():
 def cleanup_server():
     server.server_close()
     service.end_current_game()
+    time.sleep(1.5)
     if service.wiimote1:
         service.wiimote1.close()
     if service.wiimote2:

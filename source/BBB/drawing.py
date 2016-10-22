@@ -5,6 +5,8 @@ class Drawing(threading.Thread):
 
     WIDTH = 15
     HEIGHT = 9
+    BOARDX = WIDTH
+    BOARDY = HEIGHT
 
     SAVE_DRAWINGS = False
 
