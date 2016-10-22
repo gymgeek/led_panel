@@ -108,12 +108,23 @@ class Service:
 
     # parovani wiimote
     def pair_wiimote(self, index):
+        print("Pairing wiimote " + {"A":1,"E":2}[index])
+        self.set_one_led(index, "C")
         if index == "A":
             self.wiimote1 = self.led_panel.winit()
+            if not self.wiimote1:
+                print("Pairing failed")
+                self.wiimote1 = None
+                return
+            print ("Paired wiimote 1")
         elif index == "E":
             self.wiimote2 = self.led_panel.winit()
-        print("Pairing wiimote " + index)
-        self.set_one_led(index, "C")
+            if not self.wiimote2:
+                print("Pairing failed")
+                self.wiimote2 = None
+                return
+            print ("Paired wiimote 2")
+
 
     # nastaveni LEDek
     def set_leds(self):
