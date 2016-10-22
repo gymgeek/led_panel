@@ -233,15 +233,20 @@ def start():
         server.handle_request()
         service.service_loop()
 
-
-try:
-    start()
-except Exception as e:
+def cleanup_server():
     server.server_close()
     if service.wiimote1:
         service.wiimote1.close()
     if service.wiimote2:
         service.wiimote2.close()
+
+try:
+    start()
+except KeyboardInterrupt:
+    cleanup_server()
+    print("KeyboardInterrupt, terminating server")
+except Exception as e:
+    cleanup_server()
     print("terminating server, handled exception")
     traceback.print_exc()
     print(e)
