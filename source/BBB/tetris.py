@@ -355,7 +355,8 @@ class Tetris(threading.Thread):
                     render_board[y_abs][x_abs] = MAGNITUDE_COLORS[magnitude]
         
         
-        
+
+        self.print_board(render_board)
         self.led_panel.set_panel_memory_from_matrix(render_board)   
 
         
@@ -503,8 +504,15 @@ class Tetris(threading.Thread):
 
     def addToBoard(self, piece, xshift=0, yshift=0):
         # fill in the board based on piece's location, shape, and rotation
-        
-        new_board = copy.deepcopy(self.board)
+
+
+        new_board = self.get_blank_board(BOARD_WIDTH, BOARD_HEIGHT)
+
+        for y, row in enumerate(self.board):
+            for x, color in enumerate(row):
+                new_board[y][x] = color
+
+
         
         
         for x in range(TEMPLATE_WIDTH):
