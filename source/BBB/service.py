@@ -75,7 +75,7 @@ class Service:
               }
 
     def __init__(self):
-        self.led_panel = led_panel
+        self.led_panel = Led_panel
         self.service_loop()
 
     def service_loop(self):
@@ -115,8 +115,8 @@ class Service:
     # parovani wiimote
     def pair_wiimote(self, button):
         self.state = self.states["pairing_wiimote"]
-        print("Pairing wiimote " + str({"A": 1, "E": 2}[index]))
-        self.set_one_led(index, "C")
+        print("Pairing wiimote " + str({"A": 1, "E": 2}[button]))
+        self.set_one_led(button, "C")
         if button == "A":
             self.wiimote1 = self.led_panel.winit()
             if not self.wiimote1:
