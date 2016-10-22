@@ -103,6 +103,11 @@ class Infrapen(threading.Thread):
         self.calibrating = False
         self.svetelny_panel.panel_clear()
 
+        # Wait for calibration thread to finish
+        time.sleep(1)
+
+
+
     def wait_until_pen_released(self):
         # return when pen is released or calibrating thread has been stopped
         while True:

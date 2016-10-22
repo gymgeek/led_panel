@@ -75,21 +75,33 @@ class Service:
         self.led_panel = led_panel
         self.service_loop()
 
+
+
     def service_loop(self):
         # Main Service loop
 
         # vykonani tlacitek z fronty
         for button in self.button_todo:
+
+            # Update last_button and current_button for set_leds() method to be able to switch off last_button led
+            # and switch on current_button led
+            self.last_button = self.current_button
+            self.current_button = button
+
+            # Cancel whaever is running (game, calibration etc.)
+            self.cancel()
+
             # vykonani jednotlive ulohy
             self.actions[button](self, button)
-            # pokud se nejedna o kalibracni akce, nastav posledni tlacitka
-            if button not in ("A", "E", "I"):
-                self.last_button = self.current_button
-                self.current_button = button
+
             # odebrat tlacitko z fronty
             self.button_todo.remove(button)
-        # nastaveni LEDek podle aktualniho stavu
-        self.set_leds()
+
+            # nastaveni LEDek podle aktualniho stavu
+            self.set_leds()
+
+
+
 
     # funkce pro vnejsi interakci, registrovana do XMLRPC
     def api(self, buttons):
@@ -127,19 +139,28 @@ class Service:
 
     # nastaveni LEDek
     def set_leds(self):
-        # rozsviceni stavu wiimote
+
+        # indicate wiimotes states
         if self.wiimote1:
             self.set_one_led("A", "B")
         else:
             self.set_one_led("A", "A")
+
         if self.wiimote2:
             self.set_one_led("E", "B")
         else:
             self.set_one_led("E", "A")
 
+
+
+
+
         # rozsviceni stavu aktualni hry
         if self.last_button != self.current_button:
+            # Switch off last led
             self.set_one_led(self.last_button, "A")
+
+            # Switch on current led
             self.set_one_led(self.current_button, "B")
 
         # indikace kalibrace, TODO
@@ -176,18 +197,26 @@ class Service:
         if self.current_game is not None:
             self.current_game.stop_game()
             print("Terminating currrent game")
+
+            print("Waiting 1 second for game-thread to finish")
+            time.sleep(1)
+
             self.state = self.states["idle"]
+
 
     def calibrate_infrapen(self, _x):
         print("Calibrating infrapen")
         self.state = self.states["calibrating_pen"]
+
+        # during calibrating infrapen led
         self.set_one_led(_x, "C")
         self.infrapen = Infrapen(self.led_panel, self.wiimote2)
         self.infrapen.calibrate()
 
+
     # ukonceni aktualni hry
-    def cancel(self, _x):
-        print("canceling game ")
+    def cancel(self, _x="M"):
+
         if self.state == self.states["playing_game"]:
             self.end_current_game()
             self.state = self.states["idle"]
@@ -251,7 +280,6 @@ def start():
 def cleanup_server():
     server.server_close()
     service.end_current_game()
-    time.sleep(1.5)
     if service.wiimote1:
         service.wiimote1.close()
     if service.wiimote2:
