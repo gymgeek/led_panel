@@ -349,7 +349,7 @@ class Tetris(threading.Thread):
         # Score
         for magnitude, digit in enumerate(str(self.score)[::-1]):
             for r in range(int(digit)):
-                xabs = 13 - magnitude + X_SHIFT
+                xabs = BOARD_WIDTH + 3 - magnitude + X_SHIFT
                 yabs = r + Y_SHIFT
                 if self.isOnPanel(xabs, yabs):
                     render_board[yabs][xabs] = MAGNITUDE_COLORS[magnitude]
