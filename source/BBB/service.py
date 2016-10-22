@@ -182,7 +182,7 @@ class Service:
         print("Calibrating infrapen")
         self.set_one_led(_x, "C")
         self.infrapen = Infrapen(self.led_panel, self.wiimote2)
-        self.infrapen.run()
+        self.infrapen.calibrate()
 
     # ukonceni aktualni hry
     def cancel(self, _x):
