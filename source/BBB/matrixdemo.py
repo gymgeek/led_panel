@@ -67,6 +67,7 @@ class MatrixDemo(threading.Thread):
                     rgbhex = self.rgb_to_hex(self.leds[self.XY(x, y)])
                     matrix[y][x] = rgbhex[1:]
                     print(rgbhex)
+                    print(self.leds[self.XY(x, y)])
                 except:
                     print(rgbhex+str(x)+","+str(y)+","+str(self.XY(x,y))+","+str(len(self.leds)))
 
