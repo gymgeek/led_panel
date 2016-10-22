@@ -255,17 +255,17 @@ class Tetris(threading.Thread):
             if buttons & 256:
                 # left
                 self.move_left()
-                wait_until_released(self.wiimote1)
+                self.wait_until_released(self.wiimote1)
 
             if buttons & 512:
                 # right
                 self.move_right()
-                wait_until_released(self.wiimote1)
+                self.wait_until_released(self.wiimote1)
 
             if buttons & 2048:
                 # up
                 self.rotate()
-                wait_until_released(self.wiimote1)
+                self.wait_until_released(self.wiimote1)
 
             if buttons & 1024:
                 # down
@@ -279,7 +279,7 @@ class Tetris(threading.Thread):
                 # A button
                 # PAUSE
                 pause = not pause
-                wait_until_released(self.wiimote1)
+                self.wait_until_released(self.wiimote1)
 
 
             if pause:
@@ -383,6 +383,9 @@ class Tetris(threading.Thread):
 
         else:
             self.board = self.addToBoard(self.falling_piece)      #Move is not possible, lock piece in place
+
+            print self.falling_piece.get_up_position()
+
             if self.falling_piece.get_up_position() < 0:        # Part of the falling piece is out of the board
                 gameOver = True
                 
@@ -478,9 +481,19 @@ class Tetris(threading.Thread):
                     return False
                 
         return True
-                    
 
-                
+
+
+
+    def wait_until_released(self, timeout=0.4):
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            if self.wiimote1.state["buttons"]:
+                return
+
+
+
+
     def isCompleteLine(self, y):
         # Return True if the line filled with boxes with no gaps.
         for x in range(BOARD_WIDTH):
@@ -512,3 +525,6 @@ class Tetris(threading.Thread):
                         
 
         
+
+
+
