@@ -19,6 +19,9 @@ class Infrapen(threading.Thread):
         self.transform.setdst((0, 0), (self.WIDTH - 1, 0), (0, self.HEIGHT - 1), (self.WIDTH - 1, self.HEIGHT - 1))
 
     def run(self):
+        if self.wiimote2 is None:
+            print("None wiimote")
+            return
         self.calibrate_in_parallel()
 
     def calibrate_in_parallel(self):
@@ -85,7 +88,6 @@ class Infrapen(threading.Thread):
         if self.calibrating:
             print ("Already calibrating!")
             return
-
 
         if self.wiimote2 is None:
             print("Wiimote 2 is not initialized!")
