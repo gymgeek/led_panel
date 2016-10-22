@@ -62,11 +62,13 @@ class MatrixDemo(threading.Thread):
         matrix = [[colors.BLACK for x in range(self.WIDTH)] for y in range(self.HEIGHT)]
         for x in range(self.WIDTH):
             for y in range(self.HEIGHT):
+                rgbhex = ""
                 try:
                     rgbhex = self.rgb_to_hex(self.leds[self.XY(x, y)])
                     matrix[y][x] = rgbhex[1:]
-                except IndexError:
-                    print("IndexError"+str(x)+","+str(y)+","+str(self.XY(x,y))+","+str(len(self.leds)))
+                    print(rgbhex)
+                except:
+                    print(rgbhex+str(x)+","+str(y)+","+str(self.XY(x,y))+","+str(len(self.leds)))
 
         return matrix
 
