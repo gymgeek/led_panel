@@ -5,8 +5,7 @@ class Drawing(threading.Thread):
 
     WIDTH = 15
     HEIGHT = 9
-    BOARDX = WIDTH
-    BOARDY = HEIGHT
+
 
     SAVE_DRAWINGS = False
 
@@ -100,14 +99,14 @@ class Drawing(threading.Thread):
         if x < 0:
             x = 0
 
-        elif x >= self.BOARDX:
-            x = self.BOARDX - 1
+        elif x >= self.WIDTH:
+            x = self.WIDTH - 1
 
         if y < 0:
             y = 0
             
-        elif y >= self.BOARDY:
-            y = self.BOARDY - 1
+        elif y >= self.HEIGHT:
+            y = self.HEIGHT - 1
 
         # Click on color-palette
         if x == 0 and y < len(self.COLORS):
