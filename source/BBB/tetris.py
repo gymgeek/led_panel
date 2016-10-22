@@ -351,8 +351,8 @@ class Tetris(threading.Thread):
             for n in range(int(digit)):
                 x_abs = BOARD_WIDTH + 3 - magnitude + X_SHIFT
                 y_abs = n + Y_SHIFT
-                if self.isOnPanel(xabs, yabs):
-                    render_board[yabs][xabs] = MAGNITUDE_COLORS[magnitude]
+                if self.isOnPanel(x_abs, y_abs):
+                    render_board[y_abs][x_abs] = MAGNITUDE_COLORS[magnitude]
         
         
         
