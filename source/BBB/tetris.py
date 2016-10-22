@@ -124,7 +124,7 @@ BOARD_WIDTH = 8
 BOARD_HEIGHT = 9
 
 PANEL_WIDTH = 15
-PANEL_HEIGHT = 8
+PANEL_HEIGHT = 9
 
 X_SHIFT = 1
 Y_SHIFT = 0
@@ -384,9 +384,8 @@ class Tetris(threading.Thread):
         else:
             self.board = self.addToBoard(self.falling_piece)      #Move is not possible, lock piece in place
 
-            print self.falling_piece.get_up_position()
 
-            if self.falling_piece.get_up_position() < 0:        # Part of the falling piece is out of the board
+            if self.falling_piece.x + self.falling_piece.get_up_position() < 0:        # Part of the falling piece is out of the board
                 gameOver = True
                 
             self.falling_piece = Piece()
@@ -488,7 +487,7 @@ class Tetris(threading.Thread):
     def wait_until_released(self, timeout=0.4):
         start_time = time.time()
         while time.time() - start_time < timeout:
-            if self.wiimote1.state["buttons"]:
+            if self.wiimote1.state["buttons"] == None:
                 return
 
 
