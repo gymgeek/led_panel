@@ -35,10 +35,10 @@ class MatrixDemo(threading.Thread):
         self.gameloop()
 
     def gameloop(self):
-
+        ms = (time.time() / 1000)
         yHueDelta32 = int((math.cos(ms * (27 / 1)) * (350 / self.WIDTH)))
         xHueDelta32 = int(math.cos(ms * (39 / 1)) * (310 / self.HEIGHT))
-        self.draw_one_frame((time.time() / 1000) / 65536, yHueDelta32 / 32768, xHueDelta32 / 32768);
+        self.draw_one_frame(ms / 65536, yHueDelta32 / 32768, xHueDelta32 / 32768);
         self.show()
 
     def draw_one_frame(self, startHue8, yHueDelta8, xHueDelta8):
