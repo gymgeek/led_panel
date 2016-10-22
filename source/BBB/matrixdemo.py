@@ -19,11 +19,12 @@ class MatrixDemo(threading.Thread):
         self.wiimote1 = wiimote1
         self.wiimote2 = wiimote2
         self.infrapen = infrapen
-        print("Preparing Snake game...")
+        print("Preparing the demo matrix")
 
     def start_game(self):
         self.running = True
-        print("Starting the game Snake...")
+        self.leds = [(0, 0, 0) for x in range(self.WIDTH * self.HEIGHT)]
+        print("Starting the demo matrix")
         # This starts the parallel thread (self.run() method is called)
         self.start()
 
@@ -61,7 +62,10 @@ class MatrixDemo(threading.Thread):
         matrix = [[colors.BLACK for x in range(self.WIDTH)] for y in range(self.HEIGHT)]
         for x in range(self.WIDTH):
             for y in range(self.HEIGHT):
-                matrix[x][y] = self.leds[self.XY(x, y)]
+                try:
+                    matrix[x][y] = self.leds[self.XY(x, y)]
+                except IndexError:
+                    print("IndexError"+str(x)+","+str(y)+","+str(self.XY(x,y))+","+str(len(self.leds)))
 
         return matrix
 
