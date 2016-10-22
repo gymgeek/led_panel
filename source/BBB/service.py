@@ -211,7 +211,7 @@ class Service:
     def calibrate_infrapen(self, _x):
         print("Calibrating infrapen")
         self.state = self.states["calibrating_pen"]
-
+        print(self.wiimote2)
         # during calibrating infrapen led
         self.set_one_led(_x, "C")
         self.infrapen.calibrate()
