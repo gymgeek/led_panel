@@ -211,9 +211,9 @@ class Tetris(threading.Thread):
     def game_over(self):
         # RED BLINK
         for i in range(6):
-            self.svetelny_panel.set_panel_color(RED)
+            self.led_panel.set_panel_color(RED)
             time.sleep(0.1)
-            self.svetelny_panel.panel_clear()
+            self.led_panel.panel_clear()
             time.sleep(0.1)
 
         self.reset()
@@ -478,6 +478,8 @@ class Tetris(threading.Thread):
                     continue
                 
                 if self.board[yabs][xabs] != BLACK:
+                    print xabs, yabs
+                    print self.board[yabs][xabs]
                     return False
                 
         return True
