@@ -480,8 +480,9 @@ class Tetris(threading.Thread):
                     continue
                 
                 if self.board[yabs][xabs] != BLACK:
-                    print xabs, yabs
-                    print self.board[yabs][xabs]
+                    print "self.board[yabs][xabs] != BLACK:"
+                    print "xabs, yabs:", xabs, yabs
+                    print "self.board[yabs][xabs]", self.board[yabs][xabs]
                     return False
                 
         return True
