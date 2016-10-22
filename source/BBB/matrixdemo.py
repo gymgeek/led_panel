@@ -61,7 +61,7 @@ class MatrixDemo(threading.Thread):
         matrix = [[colors.BLACK for x in range(self.WIDTH)] for y in range(self.HEIGHT)]
         for x in range(self.WIDTH):
             for y in range(self.HEIGHT):
-                matrix[x][y] = self.leds[x*y]
+                matrix[x][y] = self.leds[self.XY(x, y)]
 
         return matrix
 
