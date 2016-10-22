@@ -108,7 +108,7 @@ class Service:
 
     # parovani wiimote
     def pair_wiimote(self, index):
-        print("Pairing wiimote " + {"A":1,"E":2}[index])
+        print("Pairing wiimote " + str({"A": 1, "E": 2}[index]))
         self.set_one_led(index, "C")
         if index == "A":
             self.wiimote1 = self.led_panel.winit()
@@ -124,7 +124,6 @@ class Service:
                 self.wiimote2 = None
                 return
             print ("Paired wiimote 2")
-
 
     # nastaveni LEDek
     def set_leds(self):
@@ -182,7 +181,7 @@ class Service:
     def calibrate_infrapen(self, _x):
         print("Calibrating infrapen")
         self.set_one_led(_x, "C")
-        self.infrapen = Infrapen(self.led_panel,self.wiimote2)
+        self.infrapen = Infrapen(self.led_panel, self.wiimote2)
         self.infrapen.run()
 
     # ukonceni aktualni hry
@@ -244,6 +243,7 @@ def start():
         server.handle_request()
         service.service_loop()
 
+
 def cleanup_server():
     server.server_close()
     service.end_current_game()
@@ -251,6 +251,7 @@ def cleanup_server():
         service.wiimote1.close()
     if service.wiimote2:
         service.wiimote2.close()
+
 
 try:
     start()
