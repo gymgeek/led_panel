@@ -7,6 +7,7 @@ from snake import Snake
 from text1 import Text1
 from infrapen import Infrapen
 from drawing import Drawing
+from matrixdemo import MatrixDemo
 
 
 class Service:
@@ -32,7 +33,7 @@ class Service:
         "C": Drawing,
         "D": Text1,
 
-        "F": None,
+        "F": MatrixDemo,
         "G": testGame,
         "H": None,
 
