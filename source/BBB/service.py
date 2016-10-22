@@ -108,6 +108,7 @@ class Service:
 
     # parovani wiimote
     def pair_wiimote(self, index):
+        self.state = self.states["pairing_wiimote"]
         print("Pairing wiimote " + str({"A": 1, "E": 2}[index]))
         self.set_one_led(index, "C")
         if index == "A":
@@ -124,6 +125,7 @@ class Service:
                 self.wiimote2 = None
                 return
             print ("Paired wiimote 2")
+        self.state = self.states["idle"]
 
     # nastaveni LEDek
     def set_leds(self):
