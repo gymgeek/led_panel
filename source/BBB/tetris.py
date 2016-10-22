@@ -386,10 +386,10 @@ class Tetris(threading.Thread):
             self.board = self.addToBoard(self.falling_piece)      #Move is not possible, lock piece in place
 
 
-            if self.falling_piece.x + self.falling_piece.get_up_position() < 0:        # Part of the falling piece is out of the board
+            if self.falling_piece.y + self.falling_piece.get_up_position() < 0:        # Part of the falling piece is out of the board
                 gameOver = True
                 print "Game OVER"
-                print self.falling_piece.x + self.falling_piece.get_up_position()
+                print self.falling_piece.y + self.falling_piece.get_up_position()
                 
             self.falling_piece = Piece()
             
