@@ -251,7 +251,6 @@ class Tetris(threading.Thread):
         while self.running:
 
             buttons = self.wiimote1.state["buttons"]
-            print buttons
 
             if buttons & 256:
                 # left
@@ -273,6 +272,7 @@ class Tetris(threading.Thread):
                 gameOver = self.move_down()
                 last_move = time.time()
                 if gameOver:  # Game Over!
+                    print "Game Over!"
                     self.game_over()
 
             """
@@ -388,6 +388,8 @@ class Tetris(threading.Thread):
 
             if self.falling_piece.x + self.falling_piece.get_up_position() < 0:        # Part of the falling piece is out of the board
                 gameOver = True
+                print "Game OVER"
+                print self.falling_piece.x + self.falling_piece.get_up_position()
                 
             self.falling_piece = Piece()
             
