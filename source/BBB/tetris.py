@@ -251,21 +251,22 @@ class Tetris(threading.Thread):
         while self.running:
 
             buttons = self.wiimote1.state["buttons"]
+            print buttons
 
             if buttons & 256:
                 # left
                 self.move_left()
-                self.wait_until_released(self.wiimote1)
+                self.wait_until_released()
 
             if buttons & 512:
                 # right
                 self.move_right()
-                self.wait_until_released(self.wiimote1)
+                self.wait_until_released()
 
             if buttons & 2048:
                 # up
                 self.rotate()
-                self.wait_until_released(self.wiimote1)
+                self.wait_until_released()
 
             if buttons & 1024:
                 # down
@@ -279,7 +280,7 @@ class Tetris(threading.Thread):
                 # A button
                 # PAUSE
                 pause = not pause
-                self.wait_until_released(self.wiimote1)
+                self.wait_until_released()
 
 
             if pause:
@@ -487,7 +488,7 @@ class Tetris(threading.Thread):
     def wait_until_released(self, timeout=0.4):
         start_time = time.time()
         while time.time() - start_time < timeout:
-            if self.wiimote1.state["buttons"] == None:
+            if not self.wiimote1.state["buttons"]:
                 return
 
 
