@@ -15,14 +15,16 @@ class Service:
     wiimote2 = None
     infrapen = None
     current_game = None
+    current_game_index = "M"
 
     # posledi a predposledni zmacknute tlacitko
-    last_button = "M"
-    current_button = "M"
+
     # akce k vykonani z posledniho volani API
     button_todo = []
     serPort = None
     state = 0
+
+    infra_was_calibrated_once = False
 
     # prirazeni her
     games = {
@@ -38,6 +40,7 @@ class Service:
         "K": None,
         "L": None,
 
+        "M": None,
         "N": None,
         "O": None,
         "P": None,
@@ -75,18 +78,12 @@ class Service:
         self.led_panel = led_panel
         self.service_loop()
 
-
-
     def service_loop(self):
         # Main Service loop
 
         # vykonani tlacitek z fronty
         for button in self.button_todo:
-
-            # Update last_button and current_button for set_leds() method to be able to switch off last_button led
-            # and switch on current_button led
-            self.last_button = self.current_button
-            self.current_button = button
+           
 
             # Cancel whaever is running (game, calibration etc.)
             self.cancel()
@@ -99,9 +96,6 @@ class Service:
 
         # nastaveni LEDek podle aktualniho stavu
         self.set_leds()
-
-
-
 
     # funkce pro vnejsi interakci, registrovana do XMLRPC
     def api(self, buttons):
@@ -145,31 +139,26 @@ class Service:
     def set_leds(self):
 
         # indicate wiimotes states
-        if self.wiimote1:
+        if self.wiimote1 is not None:
             self.set_one_led("A", "B")
         else:
             self.set_one_led("A", "A")
 
-        if self.wiimote2:
+        if self.wiimote2 is not None:
             self.set_one_led("E", "B")
         else:
             self.set_one_led("E", "A")
 
-
-
-
-
-        # rozsviceni stavu aktualni hry
-        if self.last_button != self.current_button:
-            # Switch off last led
-            self.set_one_led(self.last_button, "A")
-
-            # Switch on current led
-            self.set_one_led(self.current_button, "B")
-
-        # indikace kalibrace, TODO
-        if self.led_states["I"] == "C":  # infrapero jiz bylo zkalibrovano
+        if self.infrapen.calibrating:
+            self.set_one_led("I", "C")
+        elif self.infra_was_calibrated_once:
             self.set_one_led("I", "B")
+        else:
+            self.set_one_led("I", "A")
+
+        for key in self.games.keys():
+            self.set_one_led(key, "A")
+        self.set_one_led(self.current_game_index, "B")
 
     # nastaveni jednotlivych ledek
     def set_one_led(self, led, state):
@@ -179,6 +168,7 @@ class Service:
     # spusteni vybrane hry
     def start_chosen_game(self, chosenGame):
         # pokud je jiz spustena hra, ukonci ji
+        self.current_game_index = chosenGame
         if self.state == self.states["playing_game"]:
             self.end_current_game()
         # nastav aktualni stav
@@ -207,7 +197,6 @@ class Service:
 
             self.state = self.states["idle"]
 
-
     def calibrate_infrapen(self, _x):
         print("Calibrating infrapen")
         self.state = self.states["calibrating_pen"]
@@ -217,16 +206,15 @@ class Service:
         self.infrapen = Infrapen(self.led_panel, self.wiimote2)
         self.infrapen.calibrate()
 
-
     # ukonceni aktualni hry
     def cancel(self, _x="M"):
 
         if self.state == self.states["playing_game"]:
             self.end_current_game()
             self.state = self.states["idle"]
+            self.start_chosen_game("M")
         elif self.state == self.states["calibrating_pen"]:
             self.infrapen.cancel_calibration()
-
 
     # jednotlive akce tlacitek
     actions = {"A": pair_wiimote,
