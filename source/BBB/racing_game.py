@@ -124,6 +124,9 @@ class Racing (threading.Thread):
                     if not self.move_left():
                         self.gameover()
                     self.LEFT = True
+
+                    self.show()
+
             else:
                 self.LEFT = False
 
@@ -135,6 +138,8 @@ class Racing (threading.Thread):
                         self.gameover()
                     self.RIGHT = True
 
+                    self.show()
+
             else:
                 self.RIGHT = False  # Button released
 
@@ -145,6 +150,8 @@ class Racing (threading.Thread):
                         self.gameover()
                     self.UP = True
 
+                    self.show()
+
             else:
                 self.UP = False  # Button released
 
@@ -154,6 +161,8 @@ class Racing (threading.Thread):
                     if not self.move_down():
                         self.gameover()
                     self.DOWN = True
+
+                    self.show()
 
             else:
                 self.DOWN = False  # Button released
@@ -168,29 +177,26 @@ class Racing (threading.Thread):
             if (time.time() - last_step) > self.DELAY:  # Automatic step
                 last_step = time.time()
                 collided = self.step()
+                self.show()
 
                 if collided:
                     self.gameover()
 
-            self.show()
+
 
 
 
 
     def move_left(self):
-        print "move left"
         return self.move(-1, 0)
 
     def move_right(self):
-        print "move right"
         return self.move(1, 0)
 
     def move_down(self):
-        print "move down"
         return self.move(0, 1)
 
     def move_up(self):
-        print "move up"
         return self.move(0, -1)
 
 
@@ -199,7 +205,6 @@ class Racing (threading.Thread):
         self.player.x  = self.player.x + xplus
         self.player.y = self.player.y + yplus
 
-        print self.player.x, self.player.y
 
         if self.isOnBoard(self.player.x, self.player.y):
             collided = self.check_for_collision()
