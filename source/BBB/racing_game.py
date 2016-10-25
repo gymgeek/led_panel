@@ -18,8 +18,16 @@ class Gate():
 
 
     def __init__(self):
+
+
         self.width = random.randint(1, 4)
         self.y = random.randint(0, HEIGHT - self.width)
+
+    def move(self):
+        newy = self.y + random.choice([-1, 1])
+        if newy >= 0 and newy <= HEIGHT - self.width:
+            self.y = newy
+
 
 
 
@@ -64,7 +72,7 @@ class Racing (threading.Thread):
         self.DOWN = False
         self.LEFT = False
 
-        self.gates = [Gate()]
+        self.gates = [Gate(), Gate()]
 
         self.player = Player()
 
@@ -219,8 +227,9 @@ class Racing (threading.Thread):
 
 
     def move_gates(self):
-        # TODO
-        pass
+        for gate in self.gates:
+            self.gate.move()
+
 
 
     def check_for_collision(self):
