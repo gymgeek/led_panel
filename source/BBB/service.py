@@ -223,7 +223,7 @@ class Service:
         if self.state == self.states["playing_game"]:
             self.end_current_game()
             self.state = self.states["idle"]
-            self.start_chosen_game("M")
+            #self.start_chosen_game("M")
         elif self.state == self.states["calibrating_pen"]:
             self.infrapen.cancel_calibration()
 
