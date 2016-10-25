@@ -224,7 +224,7 @@ class Racing (threading.Thread):
 
 
     def check_for_collision(self):
-        if self.matrix[self.player.y][self.player.x] == 1:
+        if self.matrix[self.player.y][self.player.x] == 0:
             # If player collides, return true
             return True
 
@@ -260,7 +260,7 @@ class Racing (threading.Thread):
                 else:
                     show_matrix[y][x] = "ffffff"
 
-        show_matrix[self.player.y][self.player.y] = self.player.PLAYER_COLOR
+        show_matrix[self.player.y][self.player.x] = self.player.PLAYER_COLOR
 
         self.led_panel.set_panel_memory_from_matrix(show_matrix)
 
