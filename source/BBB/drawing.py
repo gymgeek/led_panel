@@ -21,6 +21,11 @@ class Drawing(threading.Thread):
         threading.Thread.__init__(self)
         self.running = False
 
+
+        self.initialize_matrix()
+
+
+    def initialize_matrix(self):
         # Matrix that holds pixels colors
         self.matrix = [["000000" for _ in range(self.WIDTH)] for __ in range(self.HEIGHT)]
 
@@ -28,9 +33,6 @@ class Drawing(threading.Thread):
         self.current_color = self.COLORS[7]
         self.matrix[8][0] = self.COLORS[7]
 
-
-    def clear(self):
-        self.matrix = [["000000" for _ in range(self.WIDTH)] for __ in range(self.HEIGHT)]
 
 
 
@@ -143,11 +145,11 @@ class Drawing(threading.Thread):
 
 
     def evaluate_magic_sequnces(self):
-        if self.LAST_COLORS == ["00FFFF", "0000FF", "00FFFF"]:      # Python magic sequence
+        if self.LAST_COLORS == ['FFFF00', '0000FF', 'FFFF00']:      # Python magic sequence
             self.load_drawing("saved-paneldrawing-python.txt")
 
         elif self.LAST_COLORS == ["000000", "FFFFFF", "000000"]:       # Delete all magic sequence
-            self.clear()
+            self.initialize_matrix()
 
 
 
