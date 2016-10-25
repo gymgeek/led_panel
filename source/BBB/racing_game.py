@@ -25,7 +25,7 @@ class Gate():
 
         self.last_width_change = 0
 
-        self.width = random.randint(1, 4)
+        self.width = random.randint(2, 4)
         self.y = random.randint(0, HEIGHT - self.width)
 
         self.y_float = float(self.y)
@@ -62,7 +62,7 @@ class Player():
 
 
 class Racing (threading.Thread):
-    DELAY = 0.23
+
 
 
     def __init__(self):
@@ -83,6 +83,7 @@ class Racing (threading.Thread):
     def restart(self):
         self.matrix = self.get_new_matrix()
         self.score = 0
+        self.DELAY = 0.23
 
         self.RIGHT = False
         self.UP = False
