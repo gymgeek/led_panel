@@ -218,7 +218,8 @@ class Racing (threading.Thread):
         for gate in self.gates:
             self.render_gate_to_matrix(gate)
 
-            self.move_gates()
+
+        self.move_gates()
 
         if self.check_for_collision():
             return True
