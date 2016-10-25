@@ -15,19 +15,34 @@ GATE_WIDTH_MAX = 4
 
 
 class Gate():
-
+    WIDTH_CHANGE_FREQUENCY = 7
 
     def __init__(self):
 
+        self.phase1 = 0
+        self.cycle = 0
+
+        self.last_width_change = 0
 
         self.width = random.randint(1, 4)
         self.y = random.randint(0, HEIGHT - self.width)
 
+        self.y_float = float(self.y)
+
+
+
+
     def move(self):
+        self.cycle += 1
+
         newy = self.y + random.choice([-1, 1])
         if newy >= 0 and newy <= HEIGHT - self.width:
             self.y = newy
 
+
+        if self.cycle - self.last_width_change > self.WIDTH_CHANGE_FREQUENCY:
+            self.last_width_change = self.cycle
+            self.width = random.choice([2,3,4])
 
 
 
@@ -248,6 +263,7 @@ class Racing (threading.Thread):
                 if x > 0:
                     new_matrix[y][x - 1] = self.matrix[y][x]
 
+        # Makes new column impenetrable
         for y in range(HEIGHT):
             new_matrix[y][-1] = 0
 
@@ -258,7 +274,8 @@ class Racing (threading.Thread):
 
     def render_gate_to_matrix(self, gate):
         for y in range(gate.y, gate.y + gate.width):
-            self.matrix[y][-1] = 1
+            if y < HEIGHT:
+                self.matrix[y][-1] = 1
 
 
 
