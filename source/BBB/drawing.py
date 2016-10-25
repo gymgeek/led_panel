@@ -13,7 +13,7 @@ class Drawing(threading.Thread):
     # Colors that are available for drawing
     COLORS = ["000000", "FF0000", "00FF00", "0000FF", "FFFF00", "00FFFF", "FF00FF", "FFFFFF" ]
 
-    LAST_COLORS = [None, None, None]  # Saves last three selected colors for magic sequences
+    LAST_COLORS = []  # Saves last three selected colors for magic sequences
     LAST_COLOR = None
 
 
@@ -131,7 +131,7 @@ class Drawing(threading.Thread):
             if self.LAST_COLOR != self.current_color: # Color was changed
                 self.LAST_COLOR = self.current_color
                 self.LAST_COLORS.append(self.current_color)
-                self.LAST_COLORS = self.LAST_COLORS[1:]
+                self.LAST_COLORS = self.LAST_COLORS[-10:]
                 self.evaluate_magic_sequnces()
             
             # Show selected color
@@ -150,11 +150,11 @@ class Drawing(threading.Thread):
 
 
     def evaluate_magic_sequnces(self):
-        if self.LAST_COLORS == ['FFFF00', '0000FF', 'FFFF00']:      # Python magic sequence
+        if self.LAST_COLORS[-4:] == ['FFFF00', '0000FF', 'FFFF00', '0000FF']:      # Python magic sequence
             print ("You discovered python easteregg")
             self.load_drawing("python")
 
-        elif self.LAST_COLORS == ["000000", "FFFFFF", "000000"]:       # Delete all magic sequence
+        elif self.LAST_COLORS[-4:] == ["000000", "FFFFFF", "000000", "000000"]:       # Delete all magic sequence
             print ("Delete magic sequence")
             self.initialize_matrix()
 
