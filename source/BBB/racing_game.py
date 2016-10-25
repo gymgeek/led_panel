@@ -182,6 +182,8 @@ class Racing (threading.Thread):
 
             if (time.time() - last_step) > self.DELAY:  # Automatic step
                 last_step = time.time()
+                self.DELAY -= 0.0003
+                print self.DELAY
                 collided = self.step()
                 self.show()
 
