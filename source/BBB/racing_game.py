@@ -3,6 +3,7 @@ import time
 import random
 import math
 import colors
+from helper_libs import textViewer
 
 WIDTH = 15
 HEIGHT = 9
@@ -81,6 +82,7 @@ class Racing (threading.Thread):
 
     def restart(self):
         self.matrix = self.get_new_matrix()
+        self.score = 0
 
         self.RIGHT = False
         self.UP = False
@@ -99,6 +101,10 @@ class Racing (threading.Thread):
             time.sleep(0.1)
             self.led_panel.panel_clear()
             time.sleep(0.1)
+
+        # Show score
+        text_viewer = textViewer.TextViewer(self, self.led_panel, self.wiimote1)
+        text_viewer.show_blinking_text(str(self.score))
 
         self.restart()
 
@@ -231,7 +237,7 @@ class Racing (threading.Thread):
 
     def step(self):
         # Returns True if player collides, else returns False
-
+        self.score += 1
 
         self.move_matrix()
 
