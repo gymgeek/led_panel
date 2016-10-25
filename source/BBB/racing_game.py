@@ -228,7 +228,7 @@ class Racing (threading.Thread):
 
     def move_gates(self):
         for gate in self.gates:
-            self.gate.move()
+            gate.move()
 
 
 
