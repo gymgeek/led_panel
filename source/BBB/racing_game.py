@@ -155,15 +155,19 @@ class Racing (threading.Thread):
 
 
     def move_left(self):
+        print "move left"
         return self.move(-1, 0)
 
     def move_right(self):
+        print "move right"
         return self.move(1, 0)
 
     def move_down(self):
+        print "move down"
         return self.move(0, 1)
 
     def move_up(self):
+        print "move up"
         return self.move(0, -1)
 
 
@@ -171,6 +175,8 @@ class Racing (threading.Thread):
     def move(self, xplus, yplus):
         self.player.x  = self.player.x + xplus
         self.player.y = self.player.y + yplus
+
+        print self.player.x, self.player.y
 
         if self.isOnBoard(self.player.x, self.player.y):
             collided = self.check_for_collision()
@@ -250,9 +256,9 @@ class Racing (threading.Thread):
         for y, row in enumerate(self.matrix):
             for x, value in enumerate(row):
                 if value == 1:
-                    show_matrix[y][x] = "ffffff"
-                else:
                     show_matrix[y][x] = "000000"
+                else:
+                    show_matrix[y][x] = "ffffff"
 
         show_matrix[self.player.y][self.player.y] = self.player.PLAYER_COLOR
 
