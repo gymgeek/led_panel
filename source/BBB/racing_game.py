@@ -62,7 +62,7 @@ class Player():
 
 
 class Racing (threading.Thread):
-    DELAY = 0.1
+    DELAY = 0.23
 
 
     def __init__(self):
