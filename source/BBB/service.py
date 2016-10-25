@@ -207,7 +207,7 @@ class Service:
 
             print("Waiting 1 second for game-thread to finish")
             time.sleep(1)
-
+            Led_panel.panel_clear()
             self.state = self.states["idle"]
 
     def calibrate_infrapen(self, _x):
