@@ -149,6 +149,8 @@ class Racing (threading.Thread):
                 if collided:
                     self.gameover()
 
+            self.show()
+
 
 
 
@@ -239,6 +241,22 @@ class Racing (threading.Thread):
         for y in range(gate.y, gate.y + gate.width):
             self.matrix[y][-1] = 1
 
+
+
+
+    def show(self):
+        show_matrix = self.get_new_matrix()
+
+        for y, row in enumerate(self.matrix):
+            for x, value in enumerate(row):
+                if value == 1:
+                    show_matrix[y][x] = "ffffff"
+                else:
+                    show_matrix[y][x] = "000000"
+
+        show_matrix[self.player.y][self.player.y] = self.player.PLAYER_COLOR
+
+        self.led_panel.set_panel_memory_from_matrix(show_matrix)
 
 
 
