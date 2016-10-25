@@ -7,6 +7,7 @@ from snake import Snake
 from text1 import Text1
 from infrapen import Infrapen
 from drawing import Drawing
+from tetris import Tetris
 from matrixdemo import MatrixDemo
 
 
@@ -34,8 +35,8 @@ class Service:
         "D": Text1,
 
         "F": MatrixDemo,
-        "G": testGame,
-        "H": None,
+        "G": Tetris,
+        "H": testGame,
 
         "J": None,
         "K": None,
