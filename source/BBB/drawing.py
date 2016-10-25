@@ -154,7 +154,7 @@ class Drawing(threading.Thread):
             print ("You discovered python easteregg")
             self.load_drawing("python")
 
-        elif self.LAST_COLORS[-4:] == ["000000", "FFFFFF", "000000", "000000"]:       # Delete all magic sequence
+        elif self.LAST_COLORS[-4:] == ["000000", "FFFFFF", "000000", "FFFFFF"]:       # Delete all magic sequence
             print ("Delete magic sequence")
             self.initialize_matrix()
 
