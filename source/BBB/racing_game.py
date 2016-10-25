@@ -53,7 +53,7 @@ class Racing (threading.Thread):
 
 
     def get_new_matrix(self):
-        return [[0 for x in range(WIDTH)] for y in range(HEIGHT)]
+        return [[1 for x in range(WIDTH)] for y in range(HEIGHT)]
 
 
     def restart(self):
@@ -237,6 +237,9 @@ class Racing (threading.Thread):
             for x, value in enumerate(row):
                 if x > 0:
                     new_matrix[y][x - 1] = self.matrix[y][x]
+
+        for y in range(HEIGHT):
+            new_matrix[y][-1] = 0
 
         self.matrix = new_matrix
 
