@@ -182,8 +182,7 @@ class Service:
     def start_chosen_game(self, chosenGame):
         # pokud je jiz spustena hra, ukonci ji
         self.current_game_index = chosenGame
-        if self.state == self.states["playing_game"]:
-            self.end_current_game()
+        self.cancel()
         # nastav aktualni stav
         self.state = self.states["playing_game"]
         print("Starting game " + chosenGame)
@@ -221,11 +220,10 @@ class Service:
 
     # ukonceni aktualni hry
     def cancel(self, _x="M"):
-
         if self.state == self.states["playing_game"]:
             self.end_current_game()
             self.state = self.states["idle"]
-            self.start_chosen_game("M")
+            #self.start_chosen_game("M")
         elif self.state == self.states["calibrating_pen"]:
             self.infrapen.cancel_calibration()
 
