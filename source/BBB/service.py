@@ -34,8 +34,8 @@ class Service:
         "C": Drawing,
         "D": Text1,
 
-        "F": MatrixDemo,
-        "G": Tetris,
+        "F": Tetris,
+        "G": MatrixDemo,
         "H": testGame,
 
         "J": None,
