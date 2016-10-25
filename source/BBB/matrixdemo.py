@@ -40,7 +40,7 @@ class MatrixDemo(threading.Thread):
 
     def gameloop(self):
         while self.running:
-            ms = ((time.time()-self.startTime) * 1000)*10000
+            ms = ((time.time()-self.startTime) * 1000)/100000000
             """#print ms
             yHueDelta32 = int((math.cos(ms * (27 / 1)) * (350 / self.WIDTH)))
             xHueDelta32 = int(math.cos(ms * (39 / 1)) * (310 / self.HEIGHT))
