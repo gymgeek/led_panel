@@ -146,7 +146,7 @@ class Drawing(threading.Thread):
 
     def evaluate_magic_sequnces(self):
         if self.LAST_COLORS == ['FFFF00', '0000FF', 'FFFF00']:      # Python magic sequence
-            self.load_drawing("saved-paneldrawing-python.txt")
+            self.load_drawing("python")
 
         elif self.LAST_COLORS == ["000000", "FFFFFF", "000000"]:       # Delete all magic sequence
             self.initialize_matrix()
