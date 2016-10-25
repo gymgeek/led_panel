@@ -126,7 +126,7 @@ class Service:
                 self.wiimote1 = None
                 print("Closing wiimote1")
                 return
-            self.wiimote1 = self.led_panel.winit()
+            self.wiimote1 = self.led_panel.winit("00:24:1E:A7:C4:90")
             if not self.wiimote1:
                 print("Pairing wiimote1 failed")
                 self.wiimote1 = None
@@ -140,7 +140,7 @@ class Service:
                 self.wiimote2 = None
                 print("Closing wiimote2")
                 return
-            self.wiimote2 = self.led_panel.winit()
+            self.wiimote2 = self.led_panel.winit("00:27:09:05:8D:08")
             if not self.wiimote2:
                 print("Pairing wiimote2 failed")
                 self.wiimote2 = None
