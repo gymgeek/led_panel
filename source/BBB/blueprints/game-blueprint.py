@@ -10,8 +10,8 @@ class Game (threading.Thread):
         self.running = False
 
 
-    def prepare(self, svetelny_panel, wiimote1, wiimote2, infrapen):
-        self.svetelny_panel = svetelny_panel
+    def prepare(self, led_panel, wiimote1, wiimote2, infrapen):
+        self.led_panel = led_panel
         self.wiimote1 = wiimote1
         self.wiimote2 = wiimote2
         self.infrapen = infrapen
@@ -57,7 +57,7 @@ class Game (threading.Thread):
 
 
 # For example, game could be run from the main service like this
-svetelny_panel, wiimote1, wiimote2, infrapen = None, None, None, None
+led_panel, wiimote1, wiimote2, infrapen = None, None, None, None
 
 button = checkForButtonPush()
 
@@ -65,7 +65,7 @@ ChosenGame = [Game, Game2, Game3][button]
 
 # Run the chosen game
 currentGame = ChosenGame()
-currentGame.prepare(svetelny_panel, wiimote1, wiimote2, infrapen)
+currentGame.prepare(led_panel, wiimote1, wiimote2, infrapen)
 
 # run the game
 currentGame.start_game()

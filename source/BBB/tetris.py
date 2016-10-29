@@ -104,14 +104,29 @@ T_SHAPE_TEMPLATE = [['.....',
                      '..O..',
                      '.....']]
 
+WHITE       = "ffffff"
+GRAY        = "B9B9B9"
+BLACK       = "000000"
+RED         = "B90000"
+LIGHTRED    = "AF1414"
+GREEN       = "00FF00"
+LIGHTGREEN  = "14AF14"
+BLUE        = "0000FF"
+LIGHTBLUE   = "1414AF"
+YELLOW      = "9B9B00"
+LIGHTYELLOW = "AFAF14"
+PINK        = "FF00FF"
+CYAN        = "0099FF"
 
-PIECES = {'S': S_SHAPE_TEMPLATE,
-          'Z': Z_SHAPE_TEMPLATE,
-          'J': J_SHAPE_TEMPLATE,
-          'L': L_SHAPE_TEMPLATE,
-          'I': I_SHAPE_TEMPLATE,
-          'O': O_SHAPE_TEMPLATE,
-          'T': T_SHAPE_TEMPLATE}
+
+PIECES = {'S': [S_SHAPE_TEMPLATE, BLUE],
+          'Z': [Z_SHAPE_TEMPLATE, WHITE],
+          'J': [J_SHAPE_TEMPLATE, RED],
+          'L': [L_SHAPE_TEMPLATE, YELLOW],
+          'I': [I_SHAPE_TEMPLATE, CYAN],
+          'O': [O_SHAPE_TEMPLATE, GREEN],
+          'T': [T_SHAPE_TEMPLATE, PINK] }
+
 
 
 
@@ -136,20 +151,10 @@ BOARDER_COLOR = "220033"
 MAGNITUDE_COLORS = {0: "202020", 1:"808080", 2:"FFFFFF"}
 
 
-WHITE       = "ffffff"
-GRAY        = "B9B9B9"
-BLACK       = "000000"
-RED         = "B90000"
-LIGHTRED    = "AF1414"
-GREEN       = "009B00"
-LIGHTGREEN  = "14AF14"
-BLUE        = "00009B"
-LIGHTBLUE   = "1414AF"
-YELLOW      = "9B9B00"
-LIGHTYELLOW = "AFAF14"
 
-# Colors used for shapes
-COLORS = (BLUE, GREEN, RED, YELLOW)
+
+
+
 
 
 TIME_DELAY = 0.7
@@ -164,23 +169,23 @@ class Piece:
         self.shape = random.choice(list(PIECES.keys()))
 
         # Choose random rotation
-        self.rotation = random.randint(0, len(PIECES[self.shape]) - 1)
+        self.rotation = random.randint(0, len(PIECES[self.shape][0]) - 1)
 
         self.x = 2 #The middle
         self.y = - self.get_bottom_position() 
         
         
         
-        self.color = random.choice(filter(lambda c: c != last_color, COLORS))       #Every piece is of different color than previous one
-        last_color = self.color
+        self.color = PIECES[self.shape][1]
+
         
     
     def get_bottom_position(self):
-        return TEMPLATE_HEIGHT - map(lambda row: "O" in row, PIECES[self.shape][self.rotation])[::-1].index(True) - 1 
+        return TEMPLATE_HEIGHT - map(lambda row: "O" in row, PIECES[self.shape][0][self.rotation])[::-1].index(True) - 1
         
         
     def get_up_position(self):
-        return map(lambda row: "O" in row, PIECES[self.shape][self.rotation]).index(True)
+        return map(lambda row: "O" in row, PIECES[self.shape][0][self.rotation]).index(True)
         
         
         
@@ -441,7 +446,7 @@ class Tetris(threading.Thread):
 
     def rotate(self):
         old_rotation = self.falling_piece.rotation
-        self.falling_piece.rotation = (self.falling_piece.rotation + 1) % len(PIECES[self.falling_piece.shape])
+        self.falling_piece.rotation = (self.falling_piece.rotation + 1) % len(PIECES[self.falling_piece.shape][0])
 
         if not self.isValidPosition(self.falling_piece, 0, 0):    #Not possible to rotate piece
             self.falling_piece.rotation = old_rotation   #Return the rotation to the old value
@@ -465,7 +470,7 @@ class Tetris(threading.Thread):
     def isValidPosition(self, piece, xplus, yplus):
         for x in range(TEMPLATE_WIDTH):
             for y in range(TEMPLATE_HEIGHT):
-                if PIECES[piece.shape][piece.rotation][y][x] == BLANK:
+                if PIECES[piece.shape][0][piece.rotation][y][x] == BLANK:
                     continue
                    
                 xabs = x + piece.x + xplus
@@ -517,7 +522,7 @@ class Tetris(threading.Thread):
         
         for x in range(TEMPLATE_WIDTH):
             for y in range(TEMPLATE_HEIGHT):
-                if PIECES[piece.shape][piece.rotation][y][x] == "O":
+                if PIECES[piece.shape][0][piece.rotation][y][x] == "O":
                     absx = x + piece.x + xshift
                     absy = y + piece.y + yshift
                     

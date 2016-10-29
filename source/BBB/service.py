@@ -9,6 +9,7 @@ from infrapen import Infrapen
 from drawing import Drawing
 from tetris import Tetris
 from matrixdemo import MatrixDemo
+from racing_game import Racing
 
 
 class Service:
@@ -35,8 +36,8 @@ class Service:
         "D": Text1,
 
         "F": Tetris,
-        "G": MatrixDemo,
-        "H": testGame,
+        "G": Racing,
+        "H": None,
 
         "J": None,
         "K": None,

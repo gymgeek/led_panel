@@ -13,17 +13,36 @@ class Drawing(threading.Thread):
     # Colors that are available for drawing
     COLORS = ["000000", "FF0000", "00FF00", "0000FF", "FFFF00", "00FFFF", "FF00FF", "FFFFFF" ]
 
+    LAST_COLORS = []  # Saves last three selected colors for magic sequences
+    LAST_COLOR = None
+
 
     def __init__(self):
         threading.Thread.__init__(self)
         self.running = False
 
-        # Matrix that holds pixels colors
-        self.matrix = [["000000" for _ in range(self.WIDTH)] for __ in range(self.HEIGHT)]
+
+        self.initialize_matrix()
 
         # set starting color
         self.current_color = self.COLORS[7]
-        self.matrix[8][0] = self.COLORS[7]
+        self.matrix[8][0] = self.current_color
+
+
+    def initialize_matrix(self):
+        # Matrix that holds pixels colors
+        self.matrix = [["000000" for _ in range(self.WIDTH)] for __ in range(self.HEIGHT)]
+        self.show_palette()
+
+
+
+    def show_palette(self):
+        # Shows the color palette on the left side of led panel
+        for i in range(len(self.COLORS)):
+            self.matrix[i][0] = self.COLORS[i]
+
+
+
 
     def prepare(self, svetelny_panel, wiimote1, wiimote2, infrapen):
         self.svetelny_panel = svetelny_panel
@@ -65,10 +84,8 @@ class Drawing(threading.Thread):
         if self.SAVE_DRAWINGS:
             self.load_drawing()
 
-
-        # Shows the color palette on the left side of led panel
-        for i in range(len(self.COLORS)):
-            self.matrix[i][0] = self.COLORS[i]
+        # Showing color-pallette just for sure
+        self.show_palette()
 
         # Refresh
         self.svetelny_panel.set_panel_memory_from_matrix(self.matrix)
@@ -111,9 +128,16 @@ class Drawing(threading.Thread):
         # Click on color-palette
         if x == 0 and y < len(self.COLORS):
             self.current_color = self.COLORS[y]
+            if self.LAST_COLOR != self.current_color: # Color was changed
+                self.LAST_COLOR = self.current_color
+                self.LAST_COLORS.append(self.current_color)
+                self.LAST_COLORS = self.LAST_COLORS[-10:]
+                self.evaluate_magic_sequnces()
             
             # Show selected color
             self.matrix[len(self.COLORS)][0] = self.current_color
+
+
 
             # Update the led panel
             self.svetelny_panel.set_panel_memory_from_matrix(self.matrix)
@@ -123,6 +147,17 @@ class Drawing(threading.Thread):
         
         # Update the led panel
         self.svetelny_panel.set_panel_memory_from_matrix(self.matrix)
+
+
+    def evaluate_magic_sequnces(self):
+        if self.LAST_COLORS[-4:] == ['FFFF00', '0000FF', 'FFFF00', '0000FF']:      # Python magic sequence
+            print ("You discovered python easteregg")
+            self.load_drawing("python")
+
+        elif self.LAST_COLORS[-4:] == ["000000", "FFFFFF", "000000", "FFFFFF"]:       # Delete all magic sequence
+            print ("Delete magic sequence")
+            self.initialize_matrix()
+
 
 
         
