@@ -84,23 +84,19 @@ panelu se pustí nějaké demo (něco jako XYmatrix example z knihovny
 FastLED pro Arduino). Změna hry bude možná i stisknutím tlačítka hry,
 bez nutnosti ukončovat aktuální hru tlačítkem cancel.
 
-2.2Fungování SW menu
+2.2 SW menu
 --------------------
-Jedná se o service-like aplikaci, která obstarává párování wiimotes,
-a komunikaci s HW menu a podle toho pouští jednotlivé hry, jejichž 
-logika běží v paralelním vlákně.
 
-### 2.2.1 Třída samotné hry.
+Service-like app, which takes care of pairing wiimotes, communication with HW menu and starting games in paraler thread.
 
-Třída hry musí implementovat následující jednotné rozhraní, kterým bude
-ovladatelná. Před spuštěním se vždy vybraná třída hry uloží do proměnné
-`currentGame`, na kterou se budou volat dané metody, tudíž je nezbytné
-tyto metody implementovat, i pokud nejsou potřeba.
 
-#### 2.2.1.1 `prepare(self, svetelny_panel, wiimote1, wiimote2, infrapen):`
+### 2.2.1 Class of individual game
 
-Zavolá se před spuštěním hry. V parametrech jsou předány instance
-svetelnypanel a infrapen a objekty obou wiimote.
+Class of the game must have implemented following methods, which will be used to controll the game. Class of current game will be saved in variable `currentGame`. All methods will be called every time, so it's necessary to implement them, even if they are not needed
+
+#### 2.2.1.1 `prepare(self, led_panel, wiimote1, wiimote2, infrapen):`
+
+Will be called before the game will launch. Instations of led_panel, infrapen and both wiimotes are passed in arguments.
 
 #### 2.2.1.2 `start_game(self):`
 
