@@ -1,3 +1,7 @@
+This document is currently being translated. Please be patient
+======================
+
+
 1. Světelný panel
 =================
 
