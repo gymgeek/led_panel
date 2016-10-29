@@ -10,6 +10,7 @@ from drawing import Drawing
 from tetris import Tetris
 from matrixdemo import MatrixDemo
 from racing_game import Racing
+from flappy_bird import FlappyBird
 
 
 class Service:
@@ -37,7 +38,7 @@ class Service:
 
         "F": Tetris,
         "G": Racing,
-        "H": None,
+        "H": FlappyBird,
 
         "J": None,
         "K": None,
