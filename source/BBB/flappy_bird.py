@@ -28,8 +28,8 @@ class Player():
     x = 2
     y = HEIGHT / 2.
     y_speed = 0.
-    jump_strenght = 2
-    gravity = 0.6
+    jump_strenght = 1.1
+    gravity = 0.25
 
 
 
@@ -56,11 +56,11 @@ class FlappyBird(threading.Thread):
 
     def restart(self):
         self.score = 0
-        self.DELAY = 0.15
+        self.DELAY = 0.10
 
         self.UP = False
 
-        self.gates = [Gate(5*i, random.randint(0, HEIGHT - GATE_WIDTH), GATE_WIDTH) for i in range(3)]
+        self.gates = [Gate(7*i, random.randint(0, HEIGHT - GATE_WIDTH), GATE_WIDTH) for i in range(1)]
 
         self.player = Player()
 
@@ -96,6 +96,13 @@ class FlappyBird(threading.Thread):
                 self.UP = False  # Button released
 
 
+
+            if buttons & 128:
+                # Home button
+                # Reset the game
+                self.gameover()
+
+
             if (time.time() - last_step) > self.DELAY:  # Automatic step
                 last_step = time.time()
                 collided = self.step()
@@ -121,6 +128,9 @@ class FlappyBird(threading.Thread):
         for gate in self.gates:
             gate.x -= 1
 
+            if gate.x < 0:
+                gate.y = random.randint(0, HEIGHT - GATE_WIDTH)
+
             gate.x = gate.x % WIDTH
 
             for y in range(gate.y, gate.y + gate.width):
@@ -134,7 +144,7 @@ class FlappyBird(threading.Thread):
             matrix[py][px] = self.player.PLAYER_COLOR
 
         else:
-            game_over = False
+            game_over = True
 
 
         self.led_panel.set_panel_memory_from_matrix(matrix)
