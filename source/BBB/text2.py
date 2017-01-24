@@ -36,4 +36,4 @@ class Text1(threading.Thread):
         # This gameloop must be end-able by setting self.running variable to False
         # textViewer is running until self.running is not set to False
         text_viewer = textViewer.TextViewer(self, self.svetelny_panel, self.wiimote1)
-        text_viewer.show_text("PyCon 2016")
+        text_viewer.show_text(self.TEXT)
