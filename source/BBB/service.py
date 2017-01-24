@@ -2,6 +2,7 @@ from SimpleXMLRPCServer import SimpleXMLRPCServer
 from testGame import testGame
 import traceback
 import time
+import os
 import svetelny_panel as Led_panel
 from snake import Snake
 from text1 import Text1
@@ -12,6 +13,9 @@ from matrixdemo import MatrixDemo
 from racing_game import Racing
 from flappy_bird import FlappyBird
 
+WORKING_DIR = "/".join(os.path.realpath(__file__).split("/")[:-1])
+
+print("Working directory: " + WORKING_DIR)
 
 class Service:
     led_panel = Led_panel

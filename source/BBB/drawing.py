@@ -1,5 +1,10 @@
 import threading
 import time
+import traceback
+import os
+
+WORKING_DIR = "/".join(os.path.realpath(__file__).split("/")[:-1])
+
 
 class Drawing(threading.Thread):
 
@@ -173,7 +178,7 @@ class Drawing(threading.Thread):
 
         try:
             filename = name + "-paneldrawing.txt"
-            file_to_save = open(filename, "w+")
+            file_to_save = open(WORKING_DIR + "/" + filename, "w+")
             file_to_save.write(string_to_save)
             file_to_save.close()
         except IOError:
@@ -184,11 +189,12 @@ class Drawing(threading.Thread):
     def load_drawing(self, name = "saved"):
         try:
             filename = name + "-paneldrawing.txt"
-            file_to_load = open(filename, "r")
+            file_to_load = open(WORKING_DIR + "/" + filename, "r")
             loaded_string = file_to_load.read()
             file_to_load.close()
         except IOError:
             print ("There was some problem reading file: " + filename)
+            traceback.print_exc()
 
         try:
             # Try to load saved drawing
