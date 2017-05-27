@@ -137,3 +137,8 @@ Pro označení jednotlivých tlačítek se používají byty v hodnotě 65-80, t
 
 Například pro rozsvícení LEDky u tlačítka N je potřeba odeslat `NB`, tj byty `78,66`
 
+
+3.Spouštění
+==========
+Je vyžadován běh dvou procesů, jednak service.py, která obstarává jednotlivé hry a zobrazování, a jednak hw_menu.py, který obstarává klávesnici a komunikuje se service.py přes socket.
+
