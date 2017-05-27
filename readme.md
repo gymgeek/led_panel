@@ -1,8 +1,6 @@
-1.Světelný panel
-=================
+# 1.Světelný panel
 
-1.1 Třídy světelného panelu
----------------------------
+## 1.1 Třídy světelného panelu
 
 ### 1.1.1 svetelnypanel
 
@@ -47,8 +45,7 @@ ukončení hry.
 
 `return (x, y)`
 
-2. Panel menu
-=============
+# 2. Panel menu
 
 Jeden skript, nejlépe fungující jako service, obstarávající hlavní
 ovládání. Přes druhou sériovou linku komunikace s Arduinem s připojeným
@@ -56,8 +53,7 @@ ovládání. Přes druhou sériovou linku komunikace s Arduinem s připojeným
 wiimote i konfiguraci infrapera. Všechny hry budou naimportovatelné jako
 objekt, v parametru dostane obejkt wiimote a světelného panelu.
 
-2.1 Fungování HW menu
----------------------
+## 2.1 Fungování HW menu
 
 HW menu sestává ze 16 tlačítek, každé s LEDkou, oboje zapojené jako 4x4
 matrix. Ovládání bude zajišťovat Arduino, komunikace s BBB po sériové
@@ -80,8 +76,8 @@ panelu se pustí nějaké demo (něco jako XYmatrix example z knihovny
 FastLED pro Arduino). Změna hry bude možná i stisknutím tlačítka hry,
 bez nutnosti ukončovat aktuální hru tlačítkem cancel.
 
-2.2Fungování SW menu
---------------------
+## 2.2 Fungování SW menu
+
 Jedná se o service-like aplikaci, která obstarává párování wiimotes,
 a komunikaci s HW menu a podle toho pouští jednotlivé hry, jejichž 
 logika běží v paralelním vlákně.
@@ -140,13 +136,4 @@ Pro označení jednotlivých tlačítek se používají byty v hodnotě 65-80, t
 | C      | Blikání s frekvencí 2Hz |
 
 Například pro rozsvícení LEDky u tlačítka N je potřeba odeslat `NB`, tj byty `78,66`
-
-
-
-
-
-
-
-
-
 
