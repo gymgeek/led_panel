@@ -1,4 +1,4 @@
-# 1.Světelný panel
+# 1. Světelný panel
 
 ## 1.1 Třídy světelného panelu
 
